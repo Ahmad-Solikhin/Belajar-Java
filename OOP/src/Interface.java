@@ -7,6 +7,11 @@
  * interface bisa diturunkan ke interface lainnya juga, tapi makenya extends dan bisa lebih dari 1
  * */
 
+/**
+ * Dengan adanya default method ini bisa menghindari terjadinya error jika menambahkan 1 method ke interface
+ * Dengan adanya ini juga bisa dibuat konkrit class dengan syarat kata kunci default di depan methodnya
+ * */
+
 public class Interface {
     public static void main(String[] args) {
         Avanza avanza = new Avanza();
@@ -21,6 +26,10 @@ public class Interface {
 interface HasBrand
 {
     String getBrand();
+
+    default boolean isBig(){
+        return false;
+    }
 }
 
 interface Car extends HasBrand
@@ -51,4 +60,28 @@ class Avanza implements Car
     public String toString() {
         return "Mobil dengan brand " + getBrand() + " bertipe Avanza, beroda " + getTire() + " Dapat di tol? " + this.tol;
     }
+}
+
+class Bus implements Car
+{
+    @Override
+    public String getBrand() {
+        return null;
+    }
+
+    @Override
+    public boolean isBig() {
+        return true;
+    }
+
+    @Override
+    public void drive() {
+
+    }
+
+    @Override
+    public int getTire() {
+        return 8;
+    }
+
 }

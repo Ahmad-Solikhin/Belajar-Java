@@ -1,0 +1,32 @@
+Menambahkan parameter typr di parameter
+Dengan generic bisa diubah tipe datanya sesuai dengan yang ditentukan oleh kita
+
+Pake generic nanti tipe datanya bisa dicek saat kompilasi
+
+Generic itu sama aja kayak general yang bisa digunakan oleh tipe data apapun
+
+Menggunakan parameter type dengan cara <tipe_data>. bisanya ini di function maupun class digunakan T
+tipe data yang dimaksudkan harus objek
+
+Generic class merupakan class atau interface yang memiliki parameter type
+Generic parameter type yang biasa digunakan sebagai berikut:
+- E = element atau collection
+- K = key
+- T = Type
+- V = Value
+
+Ini bisa dilakukan lebih dari satu key, namun menggunakan nama key yang berbeda dari yang sebelumnya
+
+Generic ini juga bisa dipake di method atau function
+
+Invariant, maksudnya tidak boleh di sibtitusi dengan inheritance nya. Jadi gaboleh subtitute ke object. Gada hubunganya generic dengan polymorphism
+Cara melakukan subtitute di generic dinamakan covariant dengan cara menambahkan ? extebds ParentClass
+
+Covariant ini read only
+
+Bounded Type Parameter
+Membatasi tipe data yang boleh digunakan dalam generic dengan menambahkan constrain tipe apa saja yang diperbolehkan
+
+
+WildCard Digunakan ketika ingin menggunakan generic tidak peduli tipe datanya apa
+
