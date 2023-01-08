@@ -1,0 +1,47 @@
+Lambda
+Merupakan anonymous function, tapi di java itu anonymous class atau versi sederhana dari anonymous class
+Syarat lambda :
+- Berupa interface
+- memiliki 1 method abstract
+- menambahkan annotation @FunctionalInterface
+
+Cara penulisan lambda
+- TipeData namaVariable = (TipeData parameter) -> {return;};
+- TipeData namaVariable = (parameter) -> {return;};
+- TipeData namaVariable = parameter -> balikan;
+Menggunakan method reference
+- TipeData<TipeDataParameter, TipeDataKembalian> namaVariable = TipeData::methodTipeData;
+
+Java Util FUnction
+Package yang berisikan functional interface untuk membuat lambda
+Dengan interface ini tidak perlu dibuat lagi manual dan sebagian besar menggunakan generic
+Contoh :
+- Consumer, method void accept(T t) yang biasa digunakan untuk perulangan forEach dan berfungsi unutk menerima data
+Penggunaan :
+Consumer<T> namaVariable = parameter -> doSomething;
+namaVariable.accept(parameter);
+- Function, method R apply(T t) dibuthkan jika butuh nilai kembalian dan parameter
+- Predicate, method boolean test(T t) dengan return true or false
+- Supplier, method T get(), digubakan untuk mendapatkan nilai
+
+Method Reference
+Saat hanya mengakses method yang ada pada parameternya dapat dipersingkat menggunakan method references
+
+Lambda di Collection
+Default method yang digunakan pada collection kebanyakan menggunakan parameter di java.util.function sehingga prameter tersebut dapat diubah jadi lambda
+List<String> names = List.of("Ahamd", "Solikhin", "Gayuh", "Raharjo");
+names.forEach(name -> System.out.println(name));
+Diubah menjadi
+names.forEach(System.out::println);
+
+Lambda Sebagai Lazy Parameter
+Sebenarnya java tidak memiliki fitur lazy parameter
+Lazy parameter sendiri adalah parameter tersebut hanya akan dieksekusi jika diakses
+Dengan memanfaatkan lambda java dapat parameter layaknya lazy parameter
+Hal ini akan meningkatkan performa jika parameter itu tidak digunakan atau tidak dipanggil
+Lazy Parameter di java bisa mrenggunakan Supplier<T> namaVariable
+dan untuk mengakses nya tinggal menggunakan namaVariable.get()
+
+Lambda di Optional Class
+Class optional digunakan sebagai wrapper pada value yang dapat null maupun object yang null
+Hal ini dikarenakan java dapat mengthrow NullPointerException
