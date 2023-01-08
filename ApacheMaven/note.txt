@@ -1,0 +1,55 @@
+Template maven yang biasa digunakan
+
+cheat sheet :
+- mvn archetype:generate
+- maven-archetype-quickstart
+
+Maven lifecycle :
+- clean, menghapus target folder
+- compile, mengcompile source code
+- test, menjalankan unit test
+- tets-compile, mengcompile unit test
+- install, menginstall ke lokal repo
+- deploy, mendeploy code ke remote server
+- package, mempackage ke jar maupun war
+
+Menjalankan jar : java -jar target/namaFileJar
+
+Dependency
+Merupakan pulgin maupun tools dari luar project
+Maven mendukung dependency management dan akan mendownloadnya secara otomatis
+Terdapat scope depedency, seperti :
+- compile, digunakan pada source code dan unit test
+- test, hanya dapat digunkan di test
+
+Referensi mencari dependency di java:
+- search.maven.org
+- mvnrepository.com
+
+Repository merupakan lokasi dimana jar itu tersedia
+Jika ingin menambahkan repository baru dan menggunakannya bisa ditambahkan ditambah dengan url lokasi url nya
+
+Maven Properties
+Mendukung properties untuk menyimpan data konfigurasi ke dalam tag properties
+lalu diakses dengan cara ${namaTag}
+
+Distribusi File
+Secara default membuat distribusi file secara default menggunakan package
+Tapi depedencies dan properties yang digunakan tidak terinclude
+Cara agar jar dimasukkan saat distrubisi file bisa menggunakan Assembly Plugin
+Cara penggunaan : mvn package assembly:single
+
+Multi Model Project
+Saat aplikasi sangat besar ada baiknya dibuat aplikasi modular
+Misal dipecah menjadi modul modelm controllerm view, service, dsb
+Untuk membuat modul baru hanya cukup tambah folder dan tambahkan seting di pom xml
+Modul harus memiliki parent yang merupakan project diatas modul tersebut
+Selanjutnya di parent nya pun harus menginclude modulnya
+Cara mengakses modul yang berbeda dengan menambahkan di dependency
+
+Dpendecy Management
+Jika telah menggunakan banyak dependency yang banyak namun berbeda modul akan menimbulkan masalah
+Di maven mendukung dependecy management dimana bisa memasukannya di parent dan menambahkannya tanpa harus menggunakan versinya
+Secara otomatis versi dependency akan sama dengan yang ada di parent modul
+Dilakukan dengan cara memasukkan tag dependencies dalam dependencyManagement
+
