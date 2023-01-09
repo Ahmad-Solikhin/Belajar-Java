@@ -1,0 +1,126 @@
+Ini adalah implementasi di java untuk aliran data, sangat berkaitan dengan collection dan lambda
+Dalam stream hanya bisa dialirkan sekali saja atau hanya bisa digunakan sekali saja
+Class stream bersifat generic, walaupun tidak sekompleks collection namun stream sangat powerful
+
+Dalam stream bisa saja data nya kosong maupun ada
+
+Membuat Stream
+Stream<T> namaVariable
+Konkrit implementation :
+- Stream.of();
+- Stream.empty();
+- Stream.ofNullable();, datanya bisa ada bisa juga null isinya
+
+Secara default stream tidak akan mengalir sampai ia dieksekusi
+Salah satu method yang bisa digunakan untuk mengeksekusi adalah forEach
+Stream ini hanya bisa mengalir sekali, sekali jalan dari atas kebawah gabisa dikembalikan ke atas lagi
+
+Stream juga dapat dibuat menggunakan collection
+Secara default semua collection memiliki method stream
+
+Infinite Stream
+Stream yang mengalir tidak ada haisnya menggunakan method generate atau iterate
+
+Stream Builder
+Menambahkan data ke stream secara manual dan bisa digunakan seperti collection
+Cara kerjanya menambahkan data ke dalam streamBuilder dan nanti kalau sudah selesai akan dimasukkan kedalam stream
+- accept, memiliki return void
+- add, emiliki return object uilder itu sendiri jadi bisa di chaining
+- build, emngkonversi builder menjadi stream
+
+Stream Operations
+Kumpulan operasi-operasi yang dapat digunakan untuk memanipulasi Stream itu sendiri
+Hasil dari data stream yang telah dimanipulasi tidak mengubah data aslinya melainkan hasilnya dibuat dalam stream baru
+- map, mengubah data di stream menjadi stream baru
+Semua data di dalam stream bersifat immutable makannya dia akan selalu membuat data baru
+
+Stream Pipeline
+Jika banyak operasi dalam stream maka akan digunakan stream pipeline
+Terdiri dari sumber streamnya dan diikuti dengan 0-takhingga operasi
+Biasanya saat melakukan operasi di stream pasti digunakan stream pipeline
+
+Lazy Evaluation
+Stream secara default adalah lazy dan baru akan mengalir setelah dieksekusi
+Ada dua jenis stream operation
+- intermediate
+Operasi yang lazy dimana data tidak akan mengalir dan tidak akan dieksekusi sebelum dibutuhkan
+- terminal
+Operasi yang akan mengeksekusi stream
+Perbedaan, kalo return value stream lagi maka itu intermediate, kalo return void maka itu terminal
+
+Transformation Operation
+Operasi yang digunakan untuk mengubah bentuk stream
+- map(T -> U), mengubah ke tipe data yang sama
+- flatMap(T -> Stream<U>), mengubah ke stream yang lain
+
+Filtering Operation
+Melakukan filter untuk memilih data yang ingin digunakan
+- filter(U -> Boolean), kalo retun nya true maka akan di lanjutkan
+- distinct() -> kalo dia datanya duplikat maka akan dihapus
+
+Retrieving Operations
+Operasi pada stream untuk melakukan pengambilan sebagian data
+Mirip kayak filter tapi berbeda
+- limit(n), mengambil n data pertama
+- skip(n), ignore n data pertama
+- takeWhile(T -> Boolean) mengambil data kalo kondisi true, dan kalo ketemu false maka stop
+- dropWhile(T -> Boolean) mengambil data kalo kondisi udah flase sampai data paling terakhir
+Retrieving Single Element, mengambil 1 jenis element saja, tapi ini termasuk operasi terminal
+- findAny(), mengambil random
+- findFirst(), mengambil element pertama
+Kembalian dari Single Element adalah optional
+
+Ordering Operations
+Melakukan ordering menggunakan comparable bawaan objectnya atau bisa menggunakan comparator sendiri
+- sorted()
+
+Aggregate Operations
+Operasi untuk menghitung jumlah data, minimum, amximum, dan merupakan terminal operator
+- max(Comparator)
+- min(Comparator)
+- count(Comparator)
+Reduce, menggunakan proses aggregate secara manual
+
+Check Operations
+Melakukan pengecekan di dalam stream nya dengan kembalian boolean
+- anyMatch(T -> Boolean), mencari yang match dengan kondisi
+- allMatch(T -> Boolean), semua data cocok dengan kondisi
+- noneMatch(T -> Boolean), semuanya harus tidak cocok
+
+For Each Operations
+- forEach(T -> void), terminal operator
+- peek, iterasi satu persatu tapi bukan terminal
+
+Primitive Stream
+Cara melakukan stream menggunakan tipe data primitive
+- IntStream = int
+- LongStream = long
+- DoubleStream = double
+Ada tambahan method average() di primitive stream
+Mengkonversi primitive stream menjadi object stream menggunakan method mapToObj()
+
+Collect Operations
+Digunakan untuk mengambil data di dalam stream dan diubah menjadi struktur data yang diinginkan
+Mengubah stream menjadi collection, operator collect() membutuhkan paramter Collector yang sangat kompleks untuk dibuat sendiri
+Java sudah menyediakan Collector untuk mempermudah dengan class bernama Collectors dengan banyak static method
+Stream yang ada bisa diubah kedalam kedua turunan collections yaitu list dan set
+
+Mengkonversi Stream menjadi Map
+Harus menentukan function untuk membentuk key dan valuenya
+- Collectors.toMap()
+- Collectors.toConcurrentMap()
+- Collectors.toUnmodifiableMap()
+
+Grouping By
+Hasil dari Grouping by adalah Map<Group, List<Value>>
+nanti di functionnya jadi value -> key
+
+Partitioning By
+Hanya ngegrouping by kedalam 2 group saja dengan key true atau false
+
+Parallel Stream
+Stream bisa dijalankan secara paralel, secara defauld paralel stream akan dijalankan di ForkJoinPool, dimana akan dijalankan secara default menggunakan Thread sejumlah maksimal total CPU
+
+
+
+
