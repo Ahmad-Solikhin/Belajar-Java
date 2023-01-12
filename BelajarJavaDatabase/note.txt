@@ -1,0 +1,98 @@
+JDBC
+Java Database Connectivity
+API untuk mengakses database
+Menggunakan JDBC perlu implementasi yang disebut dengan driver
+
+Driver
+Driver mysql : mysql-connector-java
+Melakukan registrasi driver menggunakan static method registerDriver milik class java.sql.DriverManager
+
+Koneksi Database
+Setelah melakukan registrasi selanjutnya dilakukan koneksi ke database dengan rincian :
+- jenis db
+- host
+- port
+- username
+- password
+Cara penulisan jdbc:jeniDb://host:port/namaDb
+
+Connection
+Buat banyak terlebih dahulu dan jika ada request yang butuh koneksi tinggal ambil salah satu koneksi yang sudah dibuat
+Saat koneksinya sudah selesai digunakan maka koneksi akan dikembalikan ke pool
+Kalo semua koneksi kepake maka koneksi akan menunggu koneksi lainnya kembali ke pool
+Connection pool di JDBC direpresentasikan dengan interface javax.sql.DataSource
+Library connection pool yang bisa digunakan adalah HikariCP
+
+HikariCP (Hikari Connection Pool)
+https://github.com/brettwooldridge/HikariCP
+- setMaximumPoolSize = Berapa jumlah maksimal koneksi yang bisa dibuat
+- setMinimumIdle = Berapa jumlah minimal koneksi yang idle di pool ketika tidak ada koneksi yang digunakan
+- setIdleTimeout = Berapa lama idle yang dijadikan patokan untuk menutup koneksi
+- setMaxLifeTime = Kalo koneksinya kelamaan bisa ditutup koneksinya untuk menghindari timeout
+
+Statement
+Mengirim perintah sql ke database
+Connection merupakan jembatan untuk mengirimkan koneksi
+java.sql.Statement adalah interface yang bisa digunakan untuk mengirim SQL ke database
+Untuk membuat statement bisa menggunakan : createStatement()
+- executeUpdate(sql) : Untuk mengirimkan perintah SQL seperti INSERT, UPDATE, DELTE, atau apapun yang ga mengembalikan result
+executeUpdate() mengembalikan berapa jumlah record yang terupdate
+- executeQuery(sql) : Untuk mengirim perintah yang mengembalikan data seperti select
+Akan mengembalikan Object ResultSet
+
+ResultSet
+Data dari ResultSet ini harus menggunakan perulangan manual
+- next : digunakan untuk maju -> boolean
+- previous : untuk mundur -> boolean
+- getTipeData(colomn) : digunakan untuk mengambil isi berdasarkan tipe data dan nama kolom nya
+
+SQL injection
+Kalo butuh injection atau input dari user jangan pake statement
+Gunakan PreparedStatement
+
+PreparedStatement
+Turunan dari statement
+
+Batch Proses
+Jika memasukkan data yang jumlahnya banyak bisa menggunakan batch proses
+Dengan menggunakan batch proses ini akan mengutamakan kecepatan
+menggunakan method
+- addBatch(), menambahkan query
+- clearParameter(), untuk menghapus parameter sebelumnya
+- executeBatch(), mengirim data ke database
+Jangan terlalu banyak menyimpan data di dalam batch, lebih baik di execute dulu per 100 atau seribu dan dikirim
+
+Auto Increment
+Saat ingin mengetahui id dari data yang dimasukkan bisa menggunakan SELECT LAST_INSERT_ID()
+Namun di JDBC bisa menggunakan getGenerateKeys() yang mengembalikan ResultSet
+Untuk statement atau preparedStatement menggunakan Statement.RETURN_GENERATED_KEYS
+
+Date, Time, TimeStamp
+Untuk menghandle tipe data ini bisa menggunakan Date, Time, dan TimeStamp yang terdapat pada java.sql
+Secara otomatis akan bisa dikonversi secara otomatis
+
+Database Transaction
+Untuk mematikan autocommit bisa dengan cara setAutoCommit(false)
+Setelah itu bisa gunakan commit()
+Untuk rollback gunakan rollback()
+
+MetaData
+Digunakan untuk mendapatkan informasi seputar database yang kita gunakan
+Ada banyak metadata :
+- DatabaseMetaData, meilihat rincian nama database, versi, table yang ada, dsb menggunakan getMetadata()
+- ParameterMetaData, parameter yang ada di prepareStatement, dengan ini dapat didapatkan info parameter yang ada
+- ResultSetMetaData, mendapatkan informasi jumlah kolom, nama kolom, tipe data tiap kolom, dsb
+
+Repository pattern
+Merupakan jembatan kode program dengan perintah SQL
+Jadi nantinya saat menginginkan query maka gunakan repository saja
+Repository dan DAO (Data Access Object)
+Memiliki perbedaan dimana dao hanya database tetapi repository tidak hanya database
+
+Entity/Model
+Representasi dari database, jadi tabelDatabase = class model
+Jadi nanti gausah pake result set, jadi make object model nya aja
+
+
+
+
