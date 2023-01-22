@@ -1,0 +1,44 @@
+Internationalization (I18N)
+Ini ditujukan agar bisa beradaptasi dengan bahasa dan tempat dimana pengguna mengakses tanpa perubahan kode nya
+hal ini dilakukan dengan cara membuat tulisan maupun kultur tidak di hardcode melainkan disimpan sehingga dapat langsung dipanggil saja
+
+Locale
+Class Locale digunakan sebagai representasi bahasa dan negara
+Locale menggunakan standar IETF BCP 47 yang terdiri dari RCF 4647 "Matching of Language tags" dan RFC 5646 "Tags for Identifying Languages"
+Penulisan bahasa di Locale menggunakan ISO 639 alpha 2 atau alpha 3, kalo ada dua pilihan maka pake yang alpha 2
+Standart penulisan negara adalah ISO 3166 alpha 2
+
+Resource Bundle
+Class yang digunakan sebagai bundle berisikan data yang bisa berubah sesuai dengan Locale yang dipilih
+Class ini cocok untuk menyimpan data I18N, dimana semua data akan disimpan dalam properties file
+Harus dibuat membuat file properties bahasa lainnya dengan nama file message_in_ID.properties karena yang di deklarasikan dalam ResourceBundle menggunakan message
+Untuk properties lain key nya harus selalu sama
+Kalo gada properties dalam bahasa milik user, maka akan menggunakan default propertiesnya
+
+Date & Time
+Menggunakan DateFormat untuk parsing dari string ke Date atau sebaliknya, untuk implementasinya menggunakan class SimpleDateFormat
+Pattern date bisa dilihat di dokumentasi java SimpleDateFormat
+Pattern yang penting:
+- y : year => 1996 : 96
+- M : month => July : Jul : 07
+- D : days in year => 25
+- E : day name in week
+
+Number
+Hal ini diperlukan karena penulisan format angka di berbagai negara berbeda
+
+Currency
+I18N juga bisa digunakan untuk mata uang atau currency
+Untuk melakukannya bisa menggunakan class Currency
+
+Message Format
+Digunakan untuk subtitusi data parameter nya
+Nantinya dikasih penanda untuk variable nya
+
+Choice Format
+Class untuk menyematkan data dengan range number
+Misal kalo 1 hanya file dan jika lebih dari 1 maka jadi files
+Patternya gunakan number#value / number<value dengan urutan kecil ke besar
+-1#negatif | 0#kosong | 1#satu | 1<banyak
+ChoiceFormat menggunakan MessageFormat
+{index, choice, pattern}

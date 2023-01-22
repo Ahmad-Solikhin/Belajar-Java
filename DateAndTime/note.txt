@@ -1,0 +1,155 @@
+Hal ini dipakai karena Object Date dan Calendar itu tidak di desain terlalu bagus dalam melakukan manipulasi
+API date and time ini lebih mudah dalam pembuatan timezone
+Perbandingan
+- Yang baru bersifat immutable dan thread safe, yang berarti tidak bisa diubah. Saat diubah maka dibuat object baru yang thread safe
+- Terdapat pemisah antara tanggal dan waktu
+- Mendukung data lain seperti durasi, periode, dll
+
+--------------------------------------------------
+LocalDate
+Ini representasi dari tipe data tanggal yang gada waktunya
+default format yyyy-MM-dd
+- now(), tanggal saat ini
+- of(year, month, day)
+- parse(yyyy-MM-dd)
+
+Mengubah Local date
+Untuk mengubah tanggal bisa menggunakan with :
+- withYear
+- withMonth
+- withDay
+Untuk mengubahnya akan membuat object baru karena immutable
+
+Cara memanipulasi Local Date
+- plusYears
+- plusMonths
+- plusDays
+- minusYears
+- minusMonths
+- minusDays
+Cara mengambil tanggal di local date
+- getYear
+- getMonth
+- getMonthValue
+- getDay
+- getDayOfWeek
+
+--------------------------------------------------
+LocalTime
+Hanya waktu tanpa tanggal
+Format bawaannya HH:mm:ss.nano . Nano dan second nya itu optional
+Function-functionnya sangat mirip denga yang ada di Local Date
+
+--------------------------------------------------
+LocalDateTime
+Ini menggabung tanggal dan aktu
+Semua fungsi nya sama saja dengan yang ada di date dan time
+Format nya yyyy-MM-ddTHH:mm:ss.nano . T digunakan sebagai pemisah antara date dan time
+
+Konversi dari dan ke LocalDate
+ke
+toLocalDate()
+dari
+atTime(waktu)
+
+Konversi dari dan ke LocalTime
+ke
+toLocalTime()
+dari
+atDate(tanggal)
+
+--------------------------------------------------
+Year, YearMonth dan MonthDay
+- Year, untuk tanggal yang berisi tahun saja : format yyyy
+- YearMonth, untuk tanggal berisi tahun dan bulan saja : format yyyy-MM
+- MonthDay, untuk tanggal berisi bulan dan hari saja : format --MM--dd
+Konversi dari Year ke LocalDate
+- atMonth(bulan), ke YearMonth
+- atday(hariDalamTahun), ke localDate
+- adMonthDay(bulan, hari), ke localDate
+- MonthDay.from(localDate), dari year ke MonthDay
+
+--------------------------------------------------
+ZoneId dan ZoneOffset
+Ini merupakan TimeZone di java yang terbaru
+Untuk mendapatkan default time zone bisa gunakan ZoneId.systemDefault()
+Untuk custom bisa gunakan ZoneId.of("Zone Id")
+Mendapatkan daftar zone bisa gunakan ZoneId.getAvaliableZoneIds() : Set<String>
+
+ZoneOffset merupakan format dengan Offset seperte +07:00 atau -01:00
+Karena turunan dari ZoneId maka semua parameter bisa menerima object ZoneId
+
+--------------------------------------------------
+ZonedDateTime
+Jika ingin menggunakan zone bisa menggunakan ZonedDateTime
+Mirip dengan LocalDateTime
+Formatnya sebagai berikut : yyyy-MM-ddTHH:mm:ss.nano(+/-)ZoneOffset[ZoneId], optional antara zoneoffset dan zoneid, 1 aja
+
+Mengubah TimeZone
+- withZoneSameLocal(ZoneId), merubah zone tanpa mengubah waktunya
+- withZoneSameInstance(ZoneId), merubah zone dengan mengubah waktunya
+
+--------------------------------------------------
+OffsetTime dan OffsetDateTime
+OffsetTime kayak LocalTime dengan offset zone : format HH:mm:ss(+/-)ZoneOffset
+OffsetDateTime kayak LocalDateTime dengan offset zone : format yyyy-MM--ddTHH:mm:ss(+/-)ZoneOffset
+Konversi dari LocalTime ke OffsetTime
+atOffset(ZoneOffset)
+ke Localtime
+toLocalTime()
+Begitu juga yang LocalDateTime
+
+--------------------------------------------------
+Instant
+Ini merupakan implementasi dari miliseconds di Date
+Instant menggunakan time zone UT (00:00)
+- now(), untuk mendapatkan milisecond
+- ofEpochMilli(millisecond), untuk mendaoatkan waktu dari millisecond
+Konversi dari instant ke LocalDateTime harus memberitahu time zone yang ingin digunakan
+onversi dari LocalDateTime ke Instant membutuhkan informasi zone nya kalo daro OffsetTime atau OffsetDateTime Langsung war
+
+--------------------------------------------------
+Clock
+representasi dari tanggal dan aktu mengikuti time zone yang dipilih
+Bestpractice menggunakan clock karena dia bakal jalan terus
+Data yang didapatkan dari clock adalah instant
+Untuk mendapatkannya gunakan method instant()
+Karena instant selalu pake UTC dan tidak menggunakan UTC maka akan dikonversi ke UTC
+Konversi ke LocalDateTime atau ZonedDateTime menggunakan clock
+- now(clock), dan otomatis akan mengikuti semua konfigurasi yang ada di clock
+
+--------------------------------------------------
+Duration
+Merupakan durasi waktu dalam class Duration untuk mendapatkan durasi
+- ofSeconds();
+- ofMillis();
+- ofHours();
+- dll
+Ambil data di durasi bisa menggunakan method dengan awalan toXx
+Menghitung durasi antara waktu, kalo parameter pertama lebih besar dari yang ke2 bakal sama aja hasilnya tapi minus
+
+--------------------------------------------------
+Period
+Mirip duration tapi period lebih ke tanggal yang memiliki method yang sama kayak duration
+
+--------------------------------------------------
+DayOfWeek
+Memiliki implementasi dari nama hari dalam bentuk enum
+Merupakan turunan dari temporal sehingga operasi dari semua tipe bisa digunakan
+
+--------------------------------------------------
+Parsing and Formatting
+Untuk memformat bisa menggunakan DateTimeFormatter
+Misal ingin menggunakan pattern tidak sama dengan pattern default nya
+parse(string, formatter)
+Untuk formatting bisa menggunakan  method format(formatter)
+Ada beberapa formatter yang sudah disediakan oleh java dengan standar internasional
+Untuk menggunakannya bisa tinggal DateTimeFormatter.NAMA_FROMAT
+DateTime yang baru mendukung Internationalization juga, caranya ketika membuat formatter perlu menambahkan local nya
+
+--------------------------------------------------
+Legacy Date and Time
+Jika ingin mengubah Date, Calendar dan TimeZone dan ingin mengubahnya menjadi yang baru atau sebaliknya sudah disediakan
+Untuk date bisa menggunakan toInstant()
+Untuk Calendar juga bisa menggunakan toInstant()
+Untuk TimeZone bisa menggunakan toZoneId()

@@ -1,0 +1,104 @@
+--------------------------------------
+projectlombok.org
+
+Dengan menggunakan lombok tidak perlu membuat getter setter, equals, to string, dll secara manual
+
+--------------------------------------
+Getter dan Setter
+Menggunakan @Getter dan @Setter
+Kalo ditaro di field maka field itu bakal otomatis dibuatin
+Kalo ditaro di class maka semua field yang tidak static akan dibuatin
+
+Bisa diatur juga Access Levelnya
+Defaultnya public, jika ingin diganti dengan cara menambah param (value = AccessLevel.PROTECTED)
+
+--------------------------------------
+Constructor
+Bisa membuat constructor secara otomatis
+Menggunakan annotation
+@NoArgsConstructor untuk constructor yang gada parameternya
+@AllArgsConstructor untuk constructor yang ada semua parameternya, urutannya sesuai dengan urutan deklarasi fieldnya
+
+Static method
+Biasanya ada yang membuat object dengan cara menggunakan static methodnya
+Dengan lombok bisa dilakukan untuk hal seperti itu
+Dengan cara menambahkan methodnya di annotation
+
+Reequired Args Constructor
+Jika ingin membuat constructor untuk beberapa parameter yang diinginkan saja bisa menggunakan @RequiredArgsConstructor
+Untuk menandakan apakah dia dibutuhkan atau engga bisa menambahkan final di fieldnya
+
+--------------------------------------
+ToString
+@ToString
+Akan secara otomatis membuat to string semua field yang ada
+Jika ada yang ingin tidak dimasukkan dalam ToString bisa menambahkan parameter exclude
+
+--------------------------------------
+Equals dan HashCode
+Menggunakan annotation @EqualsAndHashCode
+Kayak to string, jika ingin meng exclude bisa menambahkan exclude di parameternya
+Jika menggunakan lombok dan ingin menggunakan equals dan hashcode mirip superclass nya bisa menambahkan prameter callSuper
+
+--------------------------------------
+Data
+Untuk membuat entity/model/data daripada pake annotation satu-satu, bisa disingkat menggunakan @Data
+Untuk data tidak bisa digunakan utuk memanggil super atau exclude
+Jika ingin melakukan hal tersebut bisa di override dengan cara menambahhkan annotation lainnya
+
+--------------------------------------
+Builder
+Dengan builder bisa membuat object kompleks dengan cukup mudah
+Dengan ini akan dibuat otomatis static method buildernya dan tinggal menggunakan build
+
+Singular
+@singular akan mempermudah saat ingin memasukkan collection
+menambahkan annotation tersebut pada field yang collection
+dengan begitu akan dibuatkan builder untuk menambahkan isi collection satu persatu
+
+--------------------------------------
+Non Null
+@NonNull
+Jika field ditambahkan annotation ini, maka secara otomatis juga akan digenerate saat @RequiredArgsConstructor dan sekaligus gabisa null
+Dan jika diletakkan di parameter maka akan dilakukan pengecekan null
+
+--------------------------------------
+Value
+Kadang saat membuat class yang immutable biasanya membuat semua fieldnya menjadi final
+Dengan annotation @Value hal ini akan secara otomatis fieldnya dibuat menjadi final
+
+--------------------------------------
+With
+Misal membuat object baru dengan mengcopy object lainnya dengan mengedit beberapa fieldnya
+Bisa menggunakan annotation @With
+Kalo mau semua field bisa taro di class
+Kalo mau satu-satu bisa ditaro di fieldnya
+
+--------------------------------------
+Cleanup
+Daripada melakukan close menggunakan try finally, lombok membuat fitur untuk melakukan hal tersebut secara otomatis
+Dengan menggunakan @Cleanup
+
+--------------------------------------
+SneakyThrows
+Biasanya kalo ada checked exception perlu dilakukan try catch atau melakukan throw lagi exceptionnya
+Dengan lombok bisa mengubah checked exception akan diubah menjadi runtime exception
+Hal ini dilakukan dengan menggunakan @SneakyThrows sehingga saat ada checked exception tidak perlu lagi try catch
+
+--------------------------------------
+Log
+Daripada membuat object log, dengan lombok bisa membuat field log secara otomatis
+@Log = java Logging
+@Slf4J = SLF4J
+@CommonsLog = apache commons log
+@Flogger = Google Flogger
+@Log4J = Log4J
+@JbossLog = JBoss Log
+
+--------------------------------------
+Synchronized
+Agar thread aman dari race condition bisa menggunakan lock maupun method synchronize
+Dengan lombok bisa gunakan annotation @Synchronized supaya otomatis terbuat
+Untuk menggunakan lock yang sama bisa ditambahkan dalam parameter value di annotationnya
+
+--------------------------------------

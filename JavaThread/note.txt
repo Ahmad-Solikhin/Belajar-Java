@@ -1,0 +1,304 @@
+------------------------------------------------
+Concurrency dan Parallel sebenarnya kedua hal yang berbeda
+Concurrency : Mengerjakan beberapa pekerjaan satu persatu pada satu waktu
+Parallel : Mengerjakan beberapa pekerjaan sekaligus pada satu waktu
+Synchronous : Berjalan secara sequential dan ditunggu sampai selesai
+Asynchronous : Tidak menunggu program selesai dan bisa lanjut ke tahap selanjutnya
+
+------------------------------------------------
+Thread
+DI dalam java ada default 1 thread yang berjalan bernama main
+Membuat thread secara manual
+Perlu dibuat object dari interface Runnable, selanjutnya akan diberikan ke Thread
+Thread akan berjalan secara asynchronous
+Untuk menjalankannya bisa gunakan method start()
+
+------------------------------------------------
+Thread Sleep
+Membuat thread menunggu sejenak atau menunggu
+menggunakan method sleep(milisecond)
+method sleep ini bisa menyebabkan InterruptedException
+
+------------------------------------------------
+Thread Join
+Meunggu samapai threadnya selesai
+
+------------------------------------------------
+Thread Interrupt
+Mengirim sinyal ke thread untuk menghentikan prosesnya
+menggunakan method interrupt()
+
+------------------------------------------------
+Thread Name
+Nama thread bisa diubah dengan method setName(nama)
+
+------------------------------------------------
+Thread State
+State untuk mendapatkn infromasi status dari sebuah thread
+
+------------------------------------------------
+Thread Daemon
+Secara default thread disebut sebagai user thread
+Kalo buat di program secara default akan selalu menunggu semua user thread nya selesai
+Jika diubah menjadi daemon menggunakan setDaemon(true) maka thread tidak akan ditunggu
+Namun jika menghentikan menggunakan System.exit() maka semua thread akan dimatikan
+
+------------------------------------------------
+Race Condition
+Keadaan dimana sebuah data diubah secara bersamaan oleh beberapa thread
+
+------------------------------------------------
+Synchronization
+Fitur agar sebuah kode program hanya boleh diakses oleh 1 thread pada 1 waktu
+Seingga thread lain akan menunggu sebelum mengakses
+Sehingga ini juga bakal jadi lebih lambat
+Tetapi akan lebih aman
+- synchronized method, paling mudah karena hanya menambah synchronized pada method nya
+- synchronized statement, Jika ingin synchronize tidak keseluruhan method bisa gunakan synchroize statement. harus menentukan object lock nya sendiri, misal buat obejct kosong
+
+------------------------------------------------
+Deadlock
+Masalah dimana beberapa thread menunggu satu sama lain, dan akhirnya terjadi deadlock
+Gada cara otomatis untuk mengatasi deadlock, harus dipikirin sendiri
+
+------------------------------------------------
+Thread Communication
+Tidak ada cara otomatis untuk komunikasi antar thread
+Biasanya disini dilakukan sharing variable
+
+------------------------------------------------
+Wait and Notify
+wait() digunakan untuk menunggu
+notify() digunakan untuk memberitahu jikalau data sudah tersedia
+notify akan memberitahu jika thread yang melakukan wait dapat dilanjutkan
+Harus dijalankan thread yang melakukan wait dulu baru yang notify
+notifyAll() memberi sinyal ke semua thread yang melakukan wait karena notify hanya memberi tahu 1 thread yang melakukan wait
+
+------------------------------------------------
+Timer
+Merupakan class untuk eksekusi job secara asyncc di masa depan
+- delayed job, dijalankan 1 kali
+- repeated job, dijalankan berkali-kali
+- periodic job, bisa dikasih period nya, jadi bisa dilakukan beberapa sekali menggunakan period
+
+------------------------------------------------
+Threadpool
+Digunakan untuk management thread
+Akan dilakukan reusable thread, dimana jika ada thread yang menganggur maka akan digunakan
+Class dari ThreadPool adalah ThreadPoolExecutor
+- core pool, minimal thread yang dibuat oleh threadpool
+- max pool, maximal thread yang akan dibuat
+- keep alive time, berapa lama thread akan dihapus jika nganggur
+- queue, antrian untuk menampung pekerjaan yang dikriim ke thread pool. Object runnable nya akan dikirim dan dimasukkan ke queue untuk dijalankan oleh thread
+Untuk mengeksekusi Runnable tinggal pakai execute(), secara otomatis data runable akan dikirim ke queue nya dan di execute oleh thread nya
+Untuk menghentikan threadpool gunakan shutdown(), dan di antrian akan di ignore
+shutdownNow() akan menghentikan dan dikembalikan
+awaitTermination() akan menunggu semua kerjaan selesai
+Rejected Handler
+Ini akan terjadi ketika queue penuh dan semua thread sedang bekerja dan mengembalikan exception
+Ini bisa diubah dengan membuat rejected execution handler sendiri
+
+------------------------------------------------
+Executor Service
+Saat membuat threadpool sebenernya yang dibuat adalah executor service
+Membuat threadpool secara manual menggunakan ThreadPoolExecutor jarang sekali digunakan
+Biasanya akan dibuat menggunakan ExecutorService
+Cara membuat ExecutorService selain ThreadPoolExecutor adalah menggunakan class Executors
+- newFixedThreadPool(n), membuat pool yang min dan max nya fix sesuai yg di declare
+- newSingleThreadExecutor(), membuat 1 pool saja
+- newCacheThreadPool(), membuat threadpool dengan thread tidak terbatas
+Bedanya dengan new Thread akan dibuat terus object thread baru, kalo cache bakal make thread yang sebelumnya udah dibuat
+ThreadPool yang dibuat dengan ExecutorService memiliki queue yang tidak terbatas dan akan menimbulkan sedikit masalah ketika banyak antrian
+
+------------------------------------------------
+Feature
+Pada runnable tidak mengembalikan data karena dia bertipe void
+Callable mirip kayak runnable tapi akan mengembalikan data
+Callable merupakan generic type
+Return dari callable adalah future
+Menggunakan method submit(callable) bukan execute
+Future juga bisa digunakan untuk dicek terlebih dahulu apakah prosesnya udah selesai
+- T get(), mengambil data, jika belum ada maka belum selesai
+- T get(timeout, time unit), menunggu dengan batasan waktu
+- void cancle(mayInterrupt), digunakan untuk membatalkan proses
+- boolean isCancelled(), mengecek apakah future sudah dibatalkan
+- boolean isDone(), mengecek apakah future udah ada datanya atau belum
+- invokeAll(Collection<Callable<T>> untuk mengeksekusi banyak callable secara sekaligus
+
+------------------------------------------------
+Invoek Any
+kasus dimana ingin mengeksekusi beberapa proses secara async, namun ingin mendapatkan yang tercepat
+
+
+------------------------------------------------
+CompleteableFuture
+Dapat membuat future secara manual, sehingga tidak perlu callable
+untuk memberi value ke CompleteableFuture secara manual bisa menggunakan complete(value) atau completeExceptionally(error)
+
+------------------------------------------------
+CompletionStage
+CompleteableFuture merubapakn turunan dari CompletionStage yang mirip kayak stream
+Dengan CompleteableFuture bisa dilakukan tugas tanpa menunggu datanya ada
+- thenApply()
+
+------------------------------------------------
+CompletionService
+Interface yang digunakan untuk memisahkan antara yang memebrikan dan menerima hasil
+- pool(), mengambil dan menghapus hasilnya, kalo kosong null
+- pool(long timeout, time unit)
+- submit(runnable task, result)
+- submit(callable task)
+- take(), kayak pool tapi kalo kosong nunggu
+
+------------------------------------------------
+Scheduled Executor Service
+Disini bisa melakukan async yang terjadwal
+Cocok untuk delayed job dan periodic job. Ini pengganti dari timer
+Tipe data yang dikembalikan adalah ScheduledFuture dan memiliki informasi untuk mendapatkan waktu delay dan sebagainya
+Untuk mengetahui submit tasknya bisa menggunakan getDelay()
+Class untuk membuatnya : ScheduledThreadPoolExecutor atau juga bisa menggunakan ScheduledExecutorService dengan Executors
+
+------------------------------------------------
+Atomic Package
+Dengan menggunakan atomic bisa mengatasi synchronized dan race condition
+
+------------------------------------------------
+Locks Package
+Alternatif dari synchronized serta wait dan notify
+- lock, alternatif dari synchronize method dan statement. Jika sudah selesai bisa di unlock dengan finally menggunakan Class ReetrainLock
+- ReadWriteLock, mmebedakan lock untuk write dan read dengan menggunakan 1 lock saja
+- condition interface method await() untuk menunggu, signal() untuk trigger 1 thread, dan signalAll() untuk semua thread, menggunakan newCondition() milik lock
+
+------------------------------------------------
+Synchronizer
+Ini improvement dari locks pada kasus-kasus tertentu, isinya merupakan class-class dari Synchronizer
+- Semaphore
+- CountDownLatch
+- CyclicBarrier
+- Phaser
+- Exchanger
+
+Semaphore
+Unutk manage data counter
+Dimana ada batas maksimalnya, dan jika ingin menaikkannya harus ditunggu sampai ada thread lain yang menurunkan nilainya
+Cocok untuk membatasi jumlah thread yang running
+- acquire(), untuk menaikkan satu
+- acquire(int), naik sesuai parameter
+- release() / release(int), menurunkan counter
+
+CountDownLatch
+Counter di awal sudah ditentukan sebelumnya
+setelah selesai, maka counter akan diturunkan
+jika sudah 0 maka baru bisa dilanjutkan ke tahap selanjutnya
+Cocok jika ingin menjalankan tugas yang menunggu async proses
+- await() / await(timeout, timeuinit), menunggu sampe 0
+- countDown(), menurunkan
+- getCount(), mendapatkan count
+
+CyclicBarrier
+Fitur yang bisa digunakan untuk saling menunggu sampai jumlah thread terpenuhi dan baru boleh dijalankan
+Ini kebalikan dari CountDownLatch
+- await() / await(timeout, timeunit), menunggu
+- getNumberWaiting(), mendapatkan jumlahnya
+- reset(), reset perhitungannya
+- isBroken(), apakah dia broken
+- getParties(), mengetahui berapa jumlah batasan atas
+jadi konsepnya ini nunggu ada thread yang bekerja sesuai dengan jumlah yang ditentukan diawal
+
+Phaser
+Phaser merupakan fitur synchronizer yang mirip dengan CyclicBarrier dan CountDownlatch namun lebih flexible
+Jika sebelumnya jumlah counternya ditentukan diawal, untuk pasher bisa diubah
+- register(), naik 1
+- bulkRegister(int), naik sesuai parameter
+- arrive(), menurunkan
+- await(int), menunggu wampai jumlah tertentu sesuai parameter
+
+Exchanger
+Untuk pertukaran data antar thread
+Jika data belum ada maka akan menunggu thread lain yang melakukan pertukaran data
+- exchange(send), jadi harus ada dua thread yang ngirim data
+
+------------------------------------------------
+Concurrent Collection
+Collection yang ada disini akan lebih aman dibanding collection yang biasanya
+- BlockingQueue, turunan dari queue dan FIFO
+- ConcurrentMap, turunan dari map
+
+BlockingQueue
+- put()
+- offer(data, timeout, unit)
+- take()
+- pool(timeout, unit)
+
+Turunan
+- LinkedBlockingQueue, ukurannya bisa berkembang
+- ArrayBlockingQueue, array dengan ukuran fix
+- DelayQueue,Dimana data yang ingin diambil jika waktu delay sudah dilewati
+- PriorityBlockingQueue, bisa di urutkan baik menggunakan comparator maupun menggunakan comparable bawaan
+- SynchronousQueue, dimana thread yang menambah data harus menunggu sampai ada thread yang mengambil data, begitu juga sebaliknya
+- LinkedBlockingDequeue
+- LinkedTransferQueue
+
+ConcurrentMap
+Sama aja kayak collection yang biasa, bedanya cuma aman doang di multiple thread
+Class implementasinya adalah ConcurrentHasMap<k,v>
+
+Cara konversi dari collection ke collection yang thread safe
+Caranya menggunakan Collections.synchronized.....(collection)
+
+------------------------------------------------
+ThreadLocal
+Fitur di java untuk menyimpan data
+Memberi kemampuan juga agar thread tersebut untuk mengakses datanya dan tidak bisa digunakan oleh thread lain
+
+ThreadLocalRandom
+Dengan Class ThreadLocalRandom akan terhindar dari race condition saat mendapatkan angka random
+
+------------------------------------------------
+Fork Join
+Dilakukan forking dan memecah pekerjaan menjadi pekerjaan kecil secara async dan nantinya akan dijoin
+
+Work Stealing Algorithm
+Yang artinya jika thread sudah selesai dan nganggur maka ia akan mencuri pekerjaan dari thread lain
+Dengan demikian semua thread akan dipastikan selalu mendapatkan pekerjaan
+
+Membuat task ke ForkJoin adalah dengan membuat ForkJoinTask
+Class ini turunan dari Callable yang memiliki retun data, sehingga bisa menggunakan execute() atau submit()
+
+- RecursiveAction
+Ini kayak runnable karena tidak mengembalikan value
+
+- RecursiveTask
+Ini kayak callable karena mengembalikan value
+
+------------------------------------------------
+Parallel Stream
+Secara default parallel stream akan dijalankan dalam ForkJoinPool
+Untuk berjalan secara parallel gunakan method parallel()
+Jika ingin membatasi parallelismnya bisa menjalankan streamnya di dalam ForkJointask
+
+------------------------------------------------
+Reactive Stream
+Ini merupakan standart async stream processing
+
+Flow
+Ini yang difokuskan dalam ReactiveStream
+Ada yang mengirim data(Publisher) dan penerima data(Subscriber)
+Dalam flow, subscriber bisa lebih dari 1
+
+Dalam ReactiveStream, jika mengambil data bisa menggunakan pool
+Ada 4 method utama
+- onSubscribe, ketika menerima data dengan object bernama Flow.Subscription, lalu di request(int)
+- onNext, ketika memproses data, disini juga bisa melakukan request ke subscribernya, dan jika sudah tidak ada data maka akan masuk onComplete
+- onError, ketika ada error
+- onComplete, ketika sudah selesai
+
+Buffer
+Saat publisher mengirim data secara cepat, maka buffer akan menyimpan data
+ukuran data buffer adalah 256, dan jika sudah penuh maka akan diminta menunggu
+
+Processor
+Gabungan antara subscriber dan publisher
+Processor bisa mengambil data dari publisher lain dan mengirimkannya ke subscriber lain
+
+
