@@ -1,0 +1,12 @@
+---------------------------
+Spring Container bisa ditulis menggunakan 2 cara, yaitu xml dan annotation
+
+Untuk Annotation Configuration terdapat 3 annotation sebagai berikut :
+- @Service
+- @Repository
+- @Component
+
+Dengan menggunakan annotation tersebut, maka bean akan terbentuk secara otomatis, dan nama bean akan emngikuti nama kelas
+Jika ingin mengubah nama bean bisa memberikan parameter pada annotationnya
+
+
