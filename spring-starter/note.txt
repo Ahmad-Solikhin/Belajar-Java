@@ -1,0 +1,17 @@
+Multi-architecture pattern
+- Presentation layer
+  Layer paling depan yang berdekatan dengan user, bertugas menampilkan hasil operasi maupun menerima data daru pengguna.
+  Kalo di java bisa json maupun thymleaf
+
+- Business layer
+  Menangani bisnis proses dari aplikasi
+
+- Persistence layer
+  Untuk menjembatani proses penyimpanan, update, hingga mengambil data dari database layer
+
+- Database layer
+  Bisa dikatakan terpisah, namun nantinya akan direpresentasikan dalam sebuah class
+
+
+
+

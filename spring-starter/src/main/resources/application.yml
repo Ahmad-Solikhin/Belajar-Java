@@ -1,0 +1,33 @@
+app:
+    currency: IDR
+    timezone: Asia/Jakarta
+    welcome-text: Hello World, are you human?
+cloud:
+    api-key: ${CLOUD_KEY}
+server:
+    port: 9000
+
+#Menjadikan seluruh properties menjadi 1 file properties
+---
+spring:
+  config:
+    activate:
+      on-profile: development
+
+server:
+    port: 9090
+
+app:
+    welcome-text: Hello World, are you human?
+
+---
+spring:
+  config:
+    activate:
+      on-profile: test
+
+server:
+  port: 9091
+
+app:
+  welcome-text: Hello World, Test

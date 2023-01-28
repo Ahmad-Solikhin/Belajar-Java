@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:tiles="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>List Buku</title>
+</head>
+<body>
+    <h1>List Buku</h1>
+
+    <table>
+        <tr>
+            <th>Id</th>
+            <th>Title</th>
+            <th>Author Name</th>
+            <th>Description</th>
+        </tr>
+        <!--Melakukan foreach di thymeleaf-->
+        <tr th:each="books: ${listBooks}">
+            <td th:text="${books.id}"></td>
+            <td th:text="${books.bookTitle}"></td>
+            <td th:text="${books.authorName}"></td>
+            <td th:text="${books.bookDescription}"></td>
+        </tr>
+    </table>
+</body>
+</html>

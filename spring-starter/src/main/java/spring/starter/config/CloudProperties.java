@@ -6,14 +6,11 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-@ConfigurationProperties(prefix = "app")
+@ConfigurationProperties(prefix = "cloud")
 @Getter
 @Setter
-public class ApplicationProperties {
+public class CloudProperties {
 
-    private String welcomeText;
+    private String apiKey;
 
-    private String timezone;
-
-    private String currency;
 }
