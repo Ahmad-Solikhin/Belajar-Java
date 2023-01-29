@@ -11,11 +11,11 @@
   <form th:action="@{/book/add}" method="post" th:object="${addBookDTO}">
       <label for="ftitle">Title:</label><br>
       <input type="text" id="ftitle" name="title" th:field="*{bookTitle}"><br>
-      <div th:if="${#fields.hasErrors('bookTitle')}" th:errors="*{bookTitle}" style="color: red;"></div>
+      <p th:if="${#fields.hasErrors('bookTitle')}" th:errors="*{bookTitle}" style="color: red;"></p>
       <br>
       <label for="lname">Author Name:</label><br>
       <input type="text" id="lname" name="name" th:field="*{authorName}"><br>
-      <div th:if="${#fields.hasErrors('authorName')}" th:errors="*{authorName}" style="color: red;"></div>
+      <p th:if="${#fields.hasErrors('authorName')}" th:errors="*{authorName}" style="color: red;"></p>
       <br>
       <label for="ldescription">Description:</label><br>
       <textarea id="ldescription" name="description" th:field="*{bookDescription}"></textarea><br>

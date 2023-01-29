@@ -27,4 +27,14 @@ public class BookRepositoryImpl implements BookRepository {
         book.setId(bookMap.size() + 1);
         bookMap.put(book.getId(), book);
     }
+
+    @Override
+    public void update(Book book) {
+        bookMap.put(book.getId(), book);
+    }
+
+    @Override
+    public void delete(Integer id) {
+        bookMap.remove(id);
+    }
 }

@@ -7,6 +7,7 @@ import spring.starter.domain.Author;
 import spring.starter.domain.Book;
 import spring.starter.dto.AddBookDTO;
 import spring.starter.dto.BookDetailDTO;
+import spring.starter.dto.BookUpdateRequest;
 import spring.starter.repository.BookRepository;
 import spring.starter.service.BookService;
 
@@ -55,6 +56,20 @@ public class BookServiceImpl implements BookService {
         book.setTitle(dto.getBookTitle());
 
         bookRepository.save(book);
+    }
+
+    @Override
+    public void updateBook(Integer bookId, BookUpdateRequest dto) {
+        Book book = bookRepository.findBookById(bookId);
+        book.setTitle(dto.getBookTitle());
+        book.setDescription(dto.getBookDescription());
+
+        bookRepository.update(book);
+    }
+
+    @Override
+    public void deleteBook(Integer id) {
+        bookRepository.delete(id);
     }
 
 
