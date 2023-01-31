@@ -39,7 +39,11 @@ public class BookResource {
 
     @GetMapping("/list")
     public ResponseEntity<List<BookDetailDTO>> showBookList(){
-        return ResponseEntity.ok().body(bookService.findBookListDetail());
+        if (bookService.findBookListDetail() == null){
+            return ResponseEntity.notFound().build();
+        }else {
+            return ResponseEntity.ok().body(bookService.findBookListDetail());
+        }
     }
 
     @PutMapping("/{bookId}")

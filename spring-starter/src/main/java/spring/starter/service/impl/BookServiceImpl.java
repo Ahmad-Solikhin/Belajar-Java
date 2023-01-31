@@ -36,14 +36,18 @@ public class BookServiceImpl implements BookService {
     @Override
     public List<BookDetailDTO> findBookListDetail() {
         List<Book> books = bookRepository.findAll();
-        return books.stream().map(v -> {
-            BookDetailDTO dto= new  BookDetailDTO();
-            dto.setAuthorName(v.getAuthor().getName());
-            dto.setBookTitle(v.getTitle());
-            dto.setBookDescription(v.getDescription());
-            dto.setId(v.getId());
-            return dto;
-        }).toList();
+        if (books.size() == 0){
+            return null;
+        }else {
+            return books.stream().map(v -> {
+                BookDetailDTO dto= new  BookDetailDTO();
+                dto.setAuthorName(v.getAuthor().getName());
+                dto.setBookTitle(v.getTitle());
+                dto.setBookDescription(v.getDescription());
+                dto.setId(v.getId());
+                return dto;
+            }).toList();
+        }
     }
 
     @Override
