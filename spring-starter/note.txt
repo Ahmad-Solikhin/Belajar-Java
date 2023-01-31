@@ -13,5 +13,31 @@ Multi-architecture pattern
   Bisa dikatakan terpisah, namun nantinya akan direpresentasikan dalam sebuah class
 
 
+Konfigurasi pada ddl auto
+- None, tidak akan ada aksi ddl
+- Validate, dimana hanya akan melakukan validasi pada model yang dibuat
+- Update, Melakukan update ddl, seperti melakukan update kolom dan tabel menggunakan model yang telah dibuat
+- create, akan dibuat database baru dengan melakukan drop database sebelumnya
+- create-drop, dimana akan membuat database baru setiap aplikasi jalan, dan akan di drop jika aplikasi berhenti
+
+Package domain sama aja kayak package entity
+
+Jika menggunakan JPA bisa menggunakan name convertion
+Misal menggunakan findBy+namaKeyword
+
+Jika menggunakan strategy identity maka akan lebih bagus jika input satu persatu
+Jika menggunakan strategy sequence bisa menggunakan metode batch insert sehingga akan lebih cepat
+
+Dalam update menggunakan JPA akan dilakukan pengecekan semua kolom, namun hal ini akan sangat memakan performance jika kolom nya banyak
+Untuk mengatasi ini bisa ditamahkan pada kelas domain berupa @DynamicUpdate
+Dengan menggunakan DynamicUpdate akan meningkatkan performa aplikasi jika kolomnya banyak
+Tapi kerugiannya adalah jika kolomnya sedikit maka akan turun performanya karena akan mematikan caching
+
+Untuk menggunakan strategy sequence ada catatan, dimana lebih dari satu table menggunakan satu sequence secara bersamaan
+Sehingga ini mengakibatkan sequence tidak berurut nantinya
+Agar setiap table memiliki squence yang unik bisa ditambahkan konfigurasi annotation @SequenceGenerator(name = "nama_generator", sequenceName = "nama_PK_seq")
+Dan pada @GeneratedValue() tambahkan generator = "nama_generator"
+
+
 
 

@@ -24,7 +24,7 @@ public class AppAnnotationAndjavaConfig {
         Author author = new Author();
         author.setId(1);
         author.setName("Gayuh");
-        author.setBirthDate(1002434450L);
+        author.setBirthDate(null);
 
         return author;
     }
