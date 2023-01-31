@@ -38,6 +38,15 @@ Sehingga ini mengakibatkan sequence tidak berurut nantinya
 Agar setiap table memiliki squence yang unik bisa ditambahkan konfigurasi annotation @SequenceGenerator(name = "nama_generator", sequenceName = "nama_PK_seq")
 Dan pada @GeneratedValue() tambahkan generator = "nama_generator"
 
+Pada relasi bisa ditambahkan annotation yang sesuai :
+- @OneToOne
+- @OneToMany
+Setelah itu diberikan annotation @JoinColumn(name = "nama_relasi", nullable = false)
+
+Best practice dalam id adalah menggunakan UUID karena id yg autoincrement dapat mudah ditebak
+
+Best practice jika terdapat kolom yang sama antar tiap entity bisa dilakukan dengan cara membuat class parent yang nantinya akan di akses
+
 
 
 

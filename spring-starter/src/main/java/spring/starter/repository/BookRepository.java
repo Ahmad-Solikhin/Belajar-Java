@@ -1,19 +1,20 @@
 package spring.starter.repository;
 
+import org.springframework.data.jpa.repository.JpaRepository;
 import spring.starter.domain.Book;
 
-import java.util.List;
+import java.util.Optional;
 
-public interface BookRepository {
+public interface BookRepository extends JpaRepository<Book, Integer> {
 
-    public Book findBookById(Integer id);
-
-    public List<Book> findAll();
-
-    public void save(Book book);
-
-    public void update(Book book);
-
-    public void delete(Integer id);
+    public Optional<Book> findById(Integer id);
+//
+//    public List<Book> findAll();
+//
+//    public void save(Book book);
+//
+//    public void update(Book book);
+//
+//    public void delete(Integer id);
 
 }

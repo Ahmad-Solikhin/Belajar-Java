@@ -9,32 +9,6 @@ import java.util.List;
 import java.util.Map;
 
 @Data
-public class BookRepositoryImpl implements BookRepository {
-    private Map<Integer, Book> bookMap;
+public class BookRepositoryImpl{
 
-    @Override
-    public Book findBookById(Integer id) {
-        return bookMap.get(id);
-    }
-
-    @Override
-    public List<Book> findAll() {
-        return new ArrayList<Book>(bookMap.values());
-    }
-
-    @Override
-    public void save(Book book) {
-        book.setId(bookMap.size() + 1);
-        bookMap.put(book.getId(), book);
-    }
-
-    @Override
-    public void update(Book book) {
-        bookMap.put(book.getId(), book);
-    }
-
-    @Override
-    public void delete(Integer id) {
-        bookMap.remove(id);
-    }
 }
