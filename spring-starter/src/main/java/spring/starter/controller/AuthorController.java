@@ -14,36 +14,36 @@ import java.util.List;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("/author")
+@RequestMapping("/v1")
 public class AuthorController {
 
     private final AuthorService authorService;
 
-    @GetMapping("/{authorId}/detail")
-    public ResponseEntity<AuthorResponse> findAuthorById(@PathVariable("authorId") Integer id){
+    @GetMapping("/author/{authorId}/detail")
+    public ResponseEntity<AuthorResponse> findAuthorById(@PathVariable("authorId") String id){
         return ResponseEntity.ok().body(authorService.findById(id));
     }
 
-    @PostMapping
+    @PostMapping("/author")
     public ResponseEntity<Void> addAuthor(@RequestBody @Valid List<AuthorAddRequest> dto){
         authorService.addAuthor(dto);
         return ResponseEntity.created(URI.create("/author")).build();
     }
 
-    @PutMapping("/{authorId}")
-    public ResponseEntity<Void> updateAuthor(@PathVariable("authorId") Integer id, @RequestBody AuthorUpdateRequest dto){
+    @PutMapping("/author/{authorId}")
+    public ResponseEntity<Void> updateAuthor(@PathVariable("authorId") String id, @RequestBody AuthorUpdateRequest dto){
         authorService.updateAuthor(id, dto);
         return ResponseEntity.ok().build();
     }
 
-    @DeleteMapping("{authorId}")
+    @DeleteMapping("/author/{authorId}")
     public ResponseEntity<Void> deleteAuthor(@PathVariable("authorId") Integer id){
         authorService.deleteAuthor(id);
         return ResponseEntity.ok().build();
     }
 
-    @DeleteMapping("/soft/{authorId}")
-    public ResponseEntity<Void> softDeleteAuthor(@PathVariable("authorId") Integer id){
+    @DeleteMapping("/author/soft/{authorId}")
+    public ResponseEntity<Void> softDeleteAuthor(@PathVariable("authorId") String id){
         authorService.softDeleteAuthor(id);
         return ResponseEntity.ok().build();
     }

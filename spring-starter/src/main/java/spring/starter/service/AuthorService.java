@@ -8,14 +8,14 @@ import java.util.List;
 
 public interface AuthorService {
 
-    public AuthorResponse findById(Integer id);
+    public AuthorResponse findById(String id);
 
     public void addAuthor(List<AuthorAddRequest> dto);
 
-    public void updateAuthor(Integer id, AuthorUpdateRequest dto);
+    public void updateAuthor(String id, AuthorUpdateRequest dto);
 
     public void deleteAuthor(Integer id);
 
-    public void softDeleteAuthor(Integer id);
+    public void softDeleteAuthor(String id);
 
 }

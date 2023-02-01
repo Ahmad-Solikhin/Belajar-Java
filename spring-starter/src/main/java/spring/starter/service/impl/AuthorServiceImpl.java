@@ -20,9 +20,9 @@ public class AuthorServiceImpl implements AuthorService {
     private final AuthorRepository authorRepository;
 
     @Override
-    public AuthorResponse findById(Integer id) {
+    public AuthorResponse findById(String id) {
 
-        Optional<Author> result = authorRepository.findById(id);
+        Optional<Author> result = authorRepository.findBySecureId(id);
 
         Author author = result.orElseThrow(
                 () -> new BadRequestException("Author With Id " + id + " Not Found")
@@ -49,8 +49,8 @@ public class AuthorServiceImpl implements AuthorService {
     }
 
     @Override
-    public void updateAuthor(Integer id, AuthorUpdateRequest dto) {
-        Author author = authorRepository.findById(id)
+    public void updateAuthor(String id, AuthorUpdateRequest dto) {
+        Author author = authorRepository.findBySecureId(id)
                 .orElseThrow(() -> new BadRequestException("Author With Id " + id + " Not Found"));
 
         author.setName(dto.getAuthorName() == null ? author.getName() : dto.getAuthorName());
@@ -66,8 +66,8 @@ public class AuthorServiceImpl implements AuthorService {
     }
 
     @Override
-    public void softDeleteAuthor(Integer id){
-        Author author = authorRepository.findById(id)
+    public void softDeleteAuthor(String id){
+        Author author = authorRepository.findBySecureId(id)
                 .orElseThrow(() -> new BadRequestException("Author With Id " + id + " Not Found"));
 
         author.setDeleted(true);

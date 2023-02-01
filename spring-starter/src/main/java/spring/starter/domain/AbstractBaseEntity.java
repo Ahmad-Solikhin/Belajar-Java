@@ -8,6 +8,7 @@ import lombok.Data;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.util.UUID;
 
 @Data
 //Annotation yang menandakan bahwa ini adalah superclass
@@ -19,7 +20,7 @@ public abstract class AbstractBaseEntity implements Serializable {
     @Serial
     private static final long serialVersionUID = 6632472172783991771L;
     @Column(columnDefinition = "boolean default false")
-    private Boolean deleted;
+    private Boolean deleted = false;
     @Column(name = "secure_id", nullable = false, unique = true)
-    private String secureId;
+    private String secureId = UUID.randomUUID().toString();
 }

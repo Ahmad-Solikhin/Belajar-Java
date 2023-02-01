@@ -10,6 +10,7 @@ import java.util.Optional;
 public interface AuthorRepository extends JpaRepository<Author, Integer> {
 
     public Optional<Author> findById(Integer id);
+    public Optional<Author> findBySecureId(String id);
     public Optional<Author> findByIdAndDeletedFalse(Integer id);
     public List<Author> findByNameLike(String name);
 
