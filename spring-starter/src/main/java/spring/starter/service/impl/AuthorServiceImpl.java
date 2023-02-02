@@ -75,5 +75,23 @@ public class AuthorServiceImpl implements AuthorService {
         authorRepository.save(author);
     }
 
+    @Override
+    public List<Author> findAuthors(List<String> authorIdList) {
+        List<Author> authors =  authorRepository.findBySecureIdIn(authorIdList);
+        if (authors.isEmpty()) throw new BadRequestException("Author not found");
+        return authors;
+    }
+
+    @Override
+    public List<AuthorResponse> construct(List<Author> authors) {
+        return authors.stream().map(v -> {
+            AuthorResponse response = new AuthorResponse();
+            response.setAuthorName(v.getName());
+            response.setBirthDate(v.getBirthDate());
+
+            return response;
+        }).toList();
+    }
+
 
 }

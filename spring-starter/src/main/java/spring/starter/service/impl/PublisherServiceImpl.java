@@ -11,6 +11,7 @@ import spring.starter.domain.Publisher;
 import spring.starter.dto.ResultPaginationResponse;
 import spring.starter.dto.publisher.PublisherAddRequest;
 import spring.starter.dto.publisher.PublisherListResponse;
+import spring.starter.dto.publisher.PublisherResponse;
 import spring.starter.dto.publisher.PublisherUpdateRequest;
 import spring.starter.exception.BadRequestException;
 import spring.starter.repository.PublisherRepository;
@@ -71,5 +72,22 @@ public class PublisherServiceImpl implements PublisherService {
         }).toList();
 
         return PaginationUtil.createResultPageResponse(result, pageResult.getTotalElements(), (long) pageResult.getTotalPages());
+    }
+
+    @Override
+    public Publisher findPublisher(String publisherId) {
+
+        Publisher publisher = publisherRepository.findBySecureIdAndDeletedFalse(publisherId)
+                .orElseThrow(() -> new BadRequestException("Publisher Not Found"));
+
+        return publisher;
+    }
+
+    @Override
+    public PublisherResponse construct(Publisher publisher) {
+        PublisherResponse response = new PublisherResponse();
+        response.setPublisherId(publisher.getSecureId());
+        response.setPublisherName(publisher.getName());
+        return response;
     }
 }

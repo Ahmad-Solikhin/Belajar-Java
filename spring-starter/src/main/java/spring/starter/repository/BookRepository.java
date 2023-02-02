@@ -7,7 +7,7 @@ import java.util.Optional;
 
 public interface BookRepository extends JpaRepository<Book, Integer> {
 
-    public Optional<Book> findById(Integer id);
+    public Optional<Book> findBySecureId(String id);
 //
 //    public List<Book> findAll();
 //

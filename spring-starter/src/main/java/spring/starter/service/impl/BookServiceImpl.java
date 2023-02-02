@@ -2,17 +2,18 @@ package spring.starter.service.impl;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-import spring.starter.domain.Author;
 import spring.starter.domain.Book;
-import spring.starter.dto.AddBookDTO;
-import spring.starter.dto.BookDetailDTO;
+import spring.starter.dto.book.BookAddRequest;
+import spring.starter.dto.BookDetailResponse;
 import spring.starter.dto.BookUpdateRequest;
 import spring.starter.exception.BadRequestException;
 import spring.starter.repository.BookRepository;
+import spring.starter.service.AuthorService;
 import spring.starter.service.BookService;
+import spring.starter.service.CategoryService;
+import spring.starter.service.PublisherService;
 
 import java.util.List;
-import java.util.Optional;
 
 //Annotation based config dengan menambahkan @Service karena terletak di service
 @Service("bookService")
@@ -21,42 +22,48 @@ public class BookServiceImpl implements BookService {
 
     //Menambahkan autowired untuk mencari dependency dari spring container, dan melakukan dependency injection untuk memasukkan class author
     private final BookRepository bookRepository;
+    private final AuthorService authorService;
+    private final CategoryService categoryService;
+    private final PublisherService publisherService;
 
     @Override
-    public BookDetailDTO findDetailById(Integer id) {
-        Book book = bookRepository.findById(id)
+    public BookDetailResponse findDetailById(String id) {
+        Book book = bookRepository.findBySecureId(id)
                 .orElseThrow(() -> new BadRequestException("Book With Id " + id + " Not Found"));
-        BookDetailDTO dto = new BookDetailDTO();
+        BookDetailResponse dto = new BookDetailResponse();
         dto.setBookTitle(book.getTitle());
         dto.setBookDescription(book.getDescription());
-        dto.setId(book.getId());
+        dto.setId(book.getSecureId());
+        dto.setCategories(categoryService.construct(book.getCategories()));
+        dto.setAuthors(authorService.construct(book.getAuthors()));
+        dto.setPublisher(publisherService.construct(book.getPublisher()));
         //dto.setAuthorName(book.getAuthor().getName());
         return dto;
     }
 
     @Override
-    public List<BookDetailDTO> findBookListDetail() {
+    public List<BookDetailResponse> findBookListDetail() {
         List<Book> books = bookRepository.findAll();
         if (books.size() == 0){
             return null;
         }else {
             return books.stream().map(v -> {
-                BookDetailDTO dto= new  BookDetailDTO();
+                BookDetailResponse dto= new BookDetailResponse();
                 //dto.setAuthorName(v.getAuthor().getName());
                 dto.setBookTitle(v.getTitle());
                 dto.setBookDescription(v.getDescription());
-                dto.setId(v.getId());
+                dto.setId(v.getSecureId());
                 return dto;
             }).toList();
         }
     }
 
     @Override
-    public void addNewBook(AddBookDTO dto) {
-//        Author author = new Author();
-//        author.setName(dto.getAuthorName());
-
+    public void addNewBook(BookAddRequest dto) {
         Book book = new Book();
+        book.setAuthors(authorService.findAuthors(dto.getAuthorIdList()));
+        book.setCategories(categoryService.findCategories(dto.getCategoryList()));
+        book.setPublisher(publisherService.findPublisher(dto.getPublisherId()));
         book.setDescription(dto.getBookDescription());
         book.setTitle(dto.getBookTitle());
 

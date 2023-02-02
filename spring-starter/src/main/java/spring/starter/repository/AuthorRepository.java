@@ -13,5 +13,6 @@ public interface AuthorRepository extends JpaRepository<Author, Integer> {
     public Optional<Author> findBySecureId(String id);
     public Optional<Author> findByIdAndDeletedFalse(Integer id);
     public List<Author> findByNameLike(String name);
+    public List<Author> findBySecureIdIn(List<String> authorIdList);
 
 }

@@ -10,6 +10,7 @@ import spring.starter.domain.Category;
 import spring.starter.dto.ResultPaginationResponse;
 import spring.starter.dto.category.CategoryAddAndUpdateRequest;
 import spring.starter.dto.category.CategoryListResponse;
+import spring.starter.exception.BadRequestException;
 import spring.starter.repository.CategoryRepository;
 import spring.starter.service.CategoryService;
 import spring.starter.util.PaginationUtil;
@@ -57,5 +58,24 @@ public class CategoryServiceImpl implements CategoryService {
         }).toList();
 
         return PaginationUtil.createResultPageResponse(list, pageResult.getTotalElements(), (long) pageResult.getTotalPages());
+    }
+
+    @Override
+    public List<Category> findCategories(List<String> categoryCodeList) {
+        List<Category> categories = categoryRepository.findByCodeIn(categoryCodeList);
+        if (categories.isEmpty()) throw new BadRequestException("Category not found");
+
+        return categories;
+    }
+
+    @Override
+    public List<CategoryListResponse> construct(List<Category> categories) {
+        return categories.stream().map(v -> {
+            CategoryListResponse response = new CategoryListResponse();
+            response.setCode(v.getCode());
+            response.setName(v.getName());
+            response.setDescription(v.getDescription());
+            return response;
+        }).toList();
     }
 }

@@ -1,18 +1,18 @@
 package spring.starter.service;
 
-import spring.starter.dto.AddBookDTO;
-import spring.starter.dto.BookDetailDTO;
+import spring.starter.dto.book.BookAddRequest;
+import spring.starter.dto.BookDetailResponse;
 import spring.starter.dto.BookUpdateRequest;
 
 import java.util.List;
 
 public interface BookService {
 
-    public BookDetailDTO findDetailById(Integer id);
+    public BookDetailResponse findDetailById(String id);
 
-    public List<BookDetailDTO> findBookListDetail();
+    public List<BookDetailResponse> findBookListDetail();
 
-    public void addNewBook(AddBookDTO dto);
+    public void addNewBook(BookAddRequest dto);
 
     public void updateBook(Integer bookId, BookUpdateRequest dto);
 

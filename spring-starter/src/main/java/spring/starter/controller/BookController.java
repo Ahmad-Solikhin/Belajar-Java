@@ -11,14 +11,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import spring.starter.dto.AddBookDTO;
-import spring.starter.dto.BookDetailDTO;
+import spring.starter.dto.book.BookAddRequest;
 import spring.starter.service.BookService;
 
-import java.util.List;
-
 @Controller
-@RequestMapping("api/v1/books")
+@RequestMapping("")
 public class BookController {
 
     @Autowired
@@ -33,13 +30,13 @@ public class BookController {
 
     @GetMapping
     public String addBook(Model model) {
-        AddBookDTO addBookDTO = new AddBookDTO();
+        BookAddRequest addBookDTO = new BookAddRequest();
         model.addAttribute("addBookDTO", addBookDTO);
         return "book/add-book";
     }
 
     @PostMapping
-    public String addNewBook(@ModelAttribute("AddBookDTO") @Valid AddBookDTO dto,
+    public String addNewBook(@ModelAttribute("AddBookDTO") @Valid BookAddRequest dto,
                              BindingResult bindingResult,
                              Errors errors,
                              Model model) {

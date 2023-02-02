@@ -5,8 +5,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.StopWatch;
 import org.springframework.web.bind.annotation.*;
-import spring.starter.dto.AddBookDTO;
-import spring.starter.dto.BookDetailDTO;
+import spring.starter.dto.book.BookAddRequest;
+import spring.starter.dto.BookDetailResponse;
 import spring.starter.dto.BookUpdateRequest;
 import spring.starter.service.BookService;
 
@@ -16,29 +16,29 @@ import java.util.List;
 @Slf4j
 @AllArgsConstructor
 @RestController
-@RequestMapping("/book")
+@RequestMapping("api/v1/books")
 public class BookResource {
 
     private final BookService bookService;
 
-    @GetMapping("/{id}")
-    public BookDetailDTO findById(@PathVariable("id") Integer id){
+    @GetMapping("/{id}/detail")
+    public ResponseEntity<BookDetailResponse> findById(@PathVariable("id") String id){
         //Nambahin waktu di log
         StopWatch stopWatch = new StopWatch();
         stopWatch.start();
         var result = bookService.findDetailById(id);
         log.info("Finish in time " + stopWatch.getTotalTimeMillis());
-        return result;
+        return ResponseEntity.ok(result);
     }
 
     @PostMapping
-    public ResponseEntity<Void> createNewBook(@RequestBody AddBookDTO dto){
+    public ResponseEntity<Void> createNewBook(@RequestBody BookAddRequest dto){
         bookService.addNewBook(dto);
-        return ResponseEntity.created(URI.create("/book")).build();
+        return ResponseEntity.created(URI.create("/books")).build();
     }
 
     @GetMapping("/list")
-    public ResponseEntity<List<BookDetailDTO>> showBookList(){
+    public ResponseEntity<List<BookDetailResponse>> showBookList(){
         if (bookService.findBookListDetail() == null){
             return ResponseEntity.notFound().build();
         }else {
