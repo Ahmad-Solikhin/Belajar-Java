@@ -15,20 +15,20 @@ import javax.naming.Name;
 import java.net.URI;
 
 @RestController
-@RequestMapping("/v1")
+@RequestMapping("api/v1/publishers")
 @AllArgsConstructor
 public class PublisherController {
 
     private final PublisherService publisherService;
 
-    @PostMapping("/publisher")
+    @PostMapping
     public ResponseEntity<Void> addPublisher(@RequestBody @Valid PublisherAddRequest request){
         publisherService.addPublisher(request);
 
         return ResponseEntity.created(URI.create("/v1/publisher")).build();
     }
 
-    @PutMapping("/publisher/{publisherId}")
+    @PutMapping("{publisherId}")
     public ResponseEntity<Void> updatePublisher(@PathVariable("publisherId") String secureId
             , @RequestBody PublisherUpdateRequest request){
         publisherService.updatePublisher(secureId, request );
@@ -36,7 +36,7 @@ public class PublisherController {
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/publisher")
+    @GetMapping
     public ResponseEntity<ResultPaginationResponse<PublisherListResponse>> getListPublisherPage(
             @RequestParam(name = "pages", defaultValue = "0") Integer page,
             @RequestParam(name = "limit", defaultValue = "5") Integer limit,

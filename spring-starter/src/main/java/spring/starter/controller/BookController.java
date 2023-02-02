@@ -18,27 +18,27 @@ import spring.starter.service.BookService;
 import java.util.List;
 
 @Controller
-@RequestMapping("/book")
+@RequestMapping("api/v1/books")
 public class BookController {
 
     @Autowired
     private BookService bookService;
 
-    @GetMapping("/")
+    @GetMapping("list")
     public String showAllBook(Model model) {
 
         model.addAttribute("listBooks", bookService.findBookListDetail());
         return "book/list-books";
     }
 
-    @GetMapping("/add")
+    @GetMapping
     public String addBook(Model model) {
         AddBookDTO addBookDTO = new AddBookDTO();
         model.addAttribute("addBookDTO", addBookDTO);
         return "book/add-book";
     }
 
-    @PostMapping("/add")
+    @PostMapping
     public String addNewBook(@ModelAttribute("AddBookDTO") @Valid AddBookDTO dto,
                              BindingResult bindingResult,
                              Errors errors,

@@ -12,18 +12,18 @@ import java.net.URI;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("/v1")
+@RequestMapping("api/v1/categories")
 public class CategoryController {
 
     public final CategoryService categoryService;
 
-    @PostMapping("/category")
+    @PostMapping
     public ResponseEntity<Void> addAndUpdateCategory(@RequestBody CategoryAddAndUpdateRequest request){
         categoryService.addAndUpdateCategory(request);
         return ResponseEntity.created(URI.create("/v1/category")).build();
     }
 
-    @GetMapping("/category")
+    @GetMapping
     public ResponseEntity<ResultPaginationResponse<CategoryListResponse>> getListCategoryPage(
             @RequestParam(name = "pages", defaultValue = "0") Integer page,
             @RequestParam(name = "limit", defaultValue = "5") Integer limit,
