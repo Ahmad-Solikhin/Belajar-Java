@@ -7,6 +7,7 @@ import spring.starter.dto.author.AuthorAddRequest;
 import spring.starter.dto.author.AuthorResponse;
 import spring.starter.dto.author.AuthorUpdateRequest;
 import spring.starter.exception.BadRequestException;
+import spring.starter.exception.NotFoundException;
 import spring.starter.repository.AuthorRepository;
 import spring.starter.service.AuthorService;
 
@@ -25,7 +26,7 @@ public class AuthorServiceImpl implements AuthorService {
         Optional<Author> result = authorRepository.findBySecureId(id);
 
         Author author = result.orElseThrow(
-                () -> new BadRequestException("Author With Id " + id + " Not Found")
+                () -> new NotFoundException("Author Not Found")
         );
 
         AuthorResponse response = new AuthorResponse();

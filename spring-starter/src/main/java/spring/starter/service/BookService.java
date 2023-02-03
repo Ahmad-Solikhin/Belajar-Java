@@ -1,7 +1,7 @@
 package spring.starter.service;
 
 import spring.starter.dto.book.BookAddRequest;
-import spring.starter.dto.BookDetailResponse;
+import spring.starter.dto.book.BookDetailResponse;
 import spring.starter.dto.BookUpdateRequest;
 
 import java.util.List;

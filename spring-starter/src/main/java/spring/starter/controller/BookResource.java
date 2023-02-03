@@ -6,7 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.util.StopWatch;
 import org.springframework.web.bind.annotation.*;
 import spring.starter.dto.book.BookAddRequest;
-import spring.starter.dto.BookDetailResponse;
+import spring.starter.dto.book.BookDetailResponse;
 import spring.starter.dto.BookUpdateRequest;
 import spring.starter.service.BookService;
 
@@ -23,11 +23,7 @@ public class BookResource {
 
     @GetMapping("/{id}/detail")
     public ResponseEntity<BookDetailResponse> findById(@PathVariable("id") String id){
-        //Nambahin waktu di log
-        StopWatch stopWatch = new StopWatch();
-        stopWatch.start();
         var result = bookService.findDetailById(id);
-        log.info("Finish in time " + stopWatch.getTotalTimeMillis());
         return ResponseEntity.ok(result);
     }
 

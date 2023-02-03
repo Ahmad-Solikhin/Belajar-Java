@@ -1,4 +1,4 @@
-package spring.starter.dto;
+package spring.starter.dto.book;
 
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;

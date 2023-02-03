@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import spring.starter.domain.Book;
 import spring.starter.dto.book.BookAddRequest;
-import spring.starter.dto.BookDetailResponse;
+import spring.starter.dto.book.BookDetailResponse;
 import spring.starter.dto.BookUpdateRequest;
 import spring.starter.exception.BadRequestException;
 import spring.starter.repository.BookRepository;

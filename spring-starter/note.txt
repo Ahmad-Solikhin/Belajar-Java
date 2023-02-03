@@ -47,6 +47,41 @@ Best practice dalam id adalah menggunakan UUID karena id yg autoincrement dapat 
 
 Best practice jika terdapat kolom yang sama antar tiap entity bisa dilakukan dengan cara membuat class parent yang nantinya akan di akses
 
+--------------------------------------------
+AOP (Aspect Oriented Programming)
+Aop adalah potongan code yang akan dieksekusi oleh framework
+Bertujuan untuk meningkatkan modularitas dari sebuah framework
+Dengan menggunakan aop ada keuntungan :
+- Logic akan berada dalam 1 tempat
+- Modul service akan menjadi lebih bersih
+
+Fitur yang dapat dilakukan menggunakan AOP :
+- logging
+- validation
+- caching
+- security
+- I18N
+
+Aspect terdiri dari
+- Aspect : code yang akan dieksekusi
+- Advice : kapan aplikasi akan mengeksekusi aspect
+- Poincut : method mana yang harus menjalankan aspect
+- Join points : event yang mentrigger aspect
+- Target Object : Tertuju pada bean pada container
+
+Pointcut Designator
+- execution, untuk mencocokan method yang dijadikan sebagai joint point
+- within, membatasi kriteria joint point dengan tipe yang ditentukan
+- args, untuk mencocokan joint point dengan args yg diberikan, dan tidak stand alone
+- @args, membatasi dimana tipe kelas menggu7nakan annotation yg telah ditentukan
+- @annotation, ini kyk @args cuma dia bisa stand alone dan nyari yg semua pake annotation itu
+
+Advice
+- Before, dijalankan sebelum method
+- After, dijalankan setelah method
+- AfterReturning, dijalankan sesudah join point return
+- AfterReturning, dijalankan jika ada throw exception
+- Around, gabungan after dan before
 
 
 
