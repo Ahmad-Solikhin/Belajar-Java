@@ -83,5 +83,11 @@ Advice
 - AfterReturning, dijalankan jika ada throw exception
 - Around, gabungan after dan before
 
+-----------------------------------------
+Spring Security
+
+Security Context adalah tempat dimana data user disimpan setelah user melakukan authentikasi
+
+
 
 
