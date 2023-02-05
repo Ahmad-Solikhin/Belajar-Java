@@ -2,8 +2,10 @@ package spring.starter.service.impl;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import spring.starter.domain.Address;
 import spring.starter.domain.Author;
 import spring.starter.dto.author.AuthorAddRequest;
+import spring.starter.dto.author.AuthorQuery;
 import spring.starter.dto.author.AuthorResponse;
 import spring.starter.dto.author.AuthorUpdateRequest;
 import spring.starter.exception.BadRequestException;
@@ -11,8 +13,9 @@ import spring.starter.exception.NotFoundException;
 import spring.starter.repository.AuthorRepository;
 import spring.starter.service.AuthorService;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -42,9 +45,21 @@ public class AuthorServiceImpl implements AuthorService {
             Author author = new Author();
             author.setName(v.getAuthorName());
             author.setBirthDate(v.getBirthDate());
+
+            List<Address> addresses = v.getAddresses().stream().map(ad -> {
+                Address address = new Address();
+                address.setCityName(ad.getCityName());
+                address.setZipCode(ad.getZipCode());
+                address.setStreetName(ad.getStreetName());
+                address.setAuthor(author);
+
+                return address;
+            }).toList();
+
+            author.setAddresses(addresses);
+
             return author;
         }).toList();
-
 
         authorRepository.saveAll(authors);
     }
@@ -54,6 +69,19 @@ public class AuthorServiceImpl implements AuthorService {
         Author author = authorRepository.findBySecureId(id)
                 .orElseThrow(() -> new BadRequestException("Author With Id " + id + " Not Found"));
 
+        Map<Integer, Address> addressMap = author.getAddresses().stream()
+                .collect(Collectors.toMap(Address::getId, a->a));
+
+        List<Address> addresses = dto.getAddresses().stream().map(v -> {
+            Address address = addressMap.get(v.getAddressId());
+            address.setCityName(v.getCityName());
+            address.setZipCode(v.getZipCode());
+            address.setStreetName(v.getStreetName());
+
+            return address;
+        }).collect(Collectors.toList());
+
+        author.setAddresses(addresses);
         author.setName(dto.getAuthorName() == null ? author.getName() : dto.getAuthorName());
         author.setBirthDate(dto.getBirthDate() == null ? author.getBirthDate() : dto.getBirthDate());
 
@@ -92,6 +120,21 @@ public class AuthorServiceImpl implements AuthorService {
 
             return response;
         }).toList();
+    }
+
+    @Override
+    public Map<Integer, List<String>> findAuthorsMap(List<Integer> bookIdList) {
+        List<AuthorQuery> authorQueryList = authorRepository.findAuthorByBookListId(bookIdList);
+        Map<Integer, List<String>> authorsMap = new HashMap<>();
+        List<String> listAuthors;
+
+        for (var v : authorQueryList){
+            listAuthors = !authorsMap.containsKey(v.getBookId()) ? new ArrayList<>() : authorsMap.get(v.getBookId());
+            listAuthors.add(v.getAuthorName());
+            authorsMap.put(v.getBookId(), listAuthors);
+        }
+
+        return authorsMap;
     }
 
 

@@ -88,6 +88,29 @@ Spring Security
 
 Security Context adalah tempat dimana data user disimpan setelah user melakukan authentikasi
 
+-----------------------------------------
+Fetch dalam database relational, ini berfungsi untuk mengatur apakah akan langsung join table atau engga
+- Eager, data yang ber relasional dengan tabel akan langsung diambil
+- Lazy, data tidak akan langsung diambil
+
+Untuk m - m dan one - m adalah lazy, untuk m - one dan one - one adalah eager
+
+-----------------------------------------
+Cascading
+Merupakan operasi yang dilakukan oleh relasi setelah entity melakukan CUD
+- PERSIST/ALL, jika ada relasi maka akan otomatis masuk juga datanya
+- MERGE, Mirip persist namun hanya update bukan create
+- REMOVE. Jika parent nya di delete maka child nya juga akan ikut di delete. Untuk melakukan hal ini harus dilakukan hard delete
+
+-----------------------------------------
+JPQL
+Digunakan untuk melakukan query yang kompleks misal membutuhkan join dengan table lain
+Jika menggunakan JPQL maka nama table itu ditulis sesuai dengan nama entity nya seperti Book bukan book
+
+-----------------------------------------
+JPA Projection
+Mengambil data lintas entity atau domain yang nantinya akan masuk kedalam 1 object
+
 
 
 

@@ -6,6 +6,7 @@ import spring.starter.dto.author.AuthorResponse;
 import spring.starter.dto.author.AuthorUpdateRequest;
 
 import java.util.List;
+import java.util.Map;
 
 public interface AuthorService {
 
@@ -22,5 +23,7 @@ public interface AuthorService {
     public List<Author> findAuthors(List<String> authorIdList);
 
     public List<AuthorResponse> construct(List<Author> authors);
+
+    public Map<Integer, List<String>> findAuthorsMap(List<Integer> authorIdList);
 
 }

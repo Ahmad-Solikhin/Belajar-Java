@@ -3,6 +3,7 @@ package spring.starter.domain;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Lazy;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -23,7 +24,7 @@ public class Book extends AbstractBaseEntity {
     private String title;
     @Column(nullable = false, columnDefinition = "TEXT")
     private String description;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "publisher_id", nullable = false)
     private Publisher publisher;
 

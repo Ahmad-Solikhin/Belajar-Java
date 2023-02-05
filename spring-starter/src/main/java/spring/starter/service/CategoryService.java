@@ -6,6 +6,7 @@ import spring.starter.dto.category.CategoryAddAndUpdateRequest;
 import spring.starter.dto.category.CategoryListResponse;
 
 import java.util.List;
+import java.util.Map;
 
 public interface CategoryService {
 
@@ -18,5 +19,8 @@ public interface CategoryService {
     public List<Category> findCategories(List<String> categoryCodeList);
 
     public List<CategoryListResponse> construct(List<Category> categories);
+
+    //Integer di sini adalah book id, List<String> nya merupakan category bukunya
+    public Map<Integer, List<String>> findCategoriesMap(List<Integer> bookIdList);
 
 }

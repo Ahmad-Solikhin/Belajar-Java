@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
@@ -13,6 +14,7 @@ import org.hibernate.annotations.Where;
 import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.UUID;
 
 @Data
@@ -25,10 +27,10 @@ import java.util.UUID;
 //@DynamicUpdate
 
 //Berikut adalah annotation yang nantinya akan diperlakukan untuk semua query JPA
-@Where(clause = "deleted = false")
+//@Where(clause = "deleted = false")
 
 //Annotation untuk menandai jika memamnggil delete akan menjadi soft delete
-@SQLDelete(sql = "UPDATE author SET deleted = true WHERE id = ?")
+//@SQLDelete(sql = "UPDATE author SET deleted = true WHERE id = ?")
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class Author extends AbstractBaseEntity{
 
@@ -42,4 +44,6 @@ public class Author extends AbstractBaseEntity{
     private String name;
     @Column(name = "birth_date", nullable = false)
     private LocalDate birthDate;
+    @OneToMany(mappedBy = "author", cascade = CascadeType.ALL)
+    private List<Address> addresses;
 }

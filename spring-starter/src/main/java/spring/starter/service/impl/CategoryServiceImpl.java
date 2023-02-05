@@ -10,12 +10,16 @@ import spring.starter.domain.Category;
 import spring.starter.dto.ResultPaginationResponse;
 import spring.starter.dto.category.CategoryAddAndUpdateRequest;
 import spring.starter.dto.category.CategoryListResponse;
+import spring.starter.dto.category.CategoryQuery;
 import spring.starter.exception.BadRequestException;
 import spring.starter.repository.CategoryRepository;
 import spring.starter.service.CategoryService;
 import spring.starter.util.PaginationUtil;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @AllArgsConstructor
@@ -77,5 +81,41 @@ public class CategoryServiceImpl implements CategoryService {
             response.setDescription(v.getDescription());
             return response;
         }).toList();
+    }
+
+    @Override
+    public Map<Integer, List<String>> findCategoriesMap(List<Integer> bookIdList) {
+
+        //Ini masih rada pusing sih
+
+        //Ini dipake buat nampung dulu hasil query objectnya
+        List<CategoryQuery> queryList = categoryRepository.findCategoryByBookIdList(bookIdList);
+
+        //Ini buat bikin map nya
+        Map<Integer, List<String>> categoryMap = new HashMap<>();
+
+        //Bikin List kosong dulu
+        List<String> categoryCodes;
+
+        //loop buat queryList
+        for (var v : queryList){
+            //Dicek apakah map nya udah ada key dari bookId dari queryList apa belum
+            if (!categoryMap.containsKey(v.getBookId())){
+                //Kalo belum list kosong nya dibuat array list yang kosong
+                categoryCodes = new ArrayList<>();
+            }else {
+                //Kalo udah ada list nya di map maka akan diambil list yang lama
+                categoryCodes = categoryMap.get(v.getBookId());
+            }
+
+            //Lalu code categorynya dimasukin kedalam list, entah dia list baru atau list lama
+            categoryCodes.add(v.getCategoryCode());
+
+            //Nah habis itu dimasukiin ke map deh dengan key bookId nya dan value nya itu list dari code nya tadi
+            //Kenapa demikian karena ia pake put, dimana kalo udah ada key nya maka akan ketimbun dan valuenya akan nambah karena manggil list yang lama kalo nimbun
+            categoryMap.put(v.getBookId(), categoryCodes);
+        }
+
+        return categoryMap;
     }
 }
