@@ -3,6 +3,7 @@ package spring.starter.controller;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import spring.starter.dto.author.AuthorAddRequest;
 import spring.starter.dto.author.AuthorResponse;
@@ -12,6 +13,7 @@ import spring.starter.service.AuthorService;
 import java.net.URI;
 import java.util.List;
 
+@Validated
 @RestController
 @AllArgsConstructor
 @RequestMapping("api/v1/authors")

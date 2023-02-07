@@ -14,9 +14,9 @@ public class PublisherAddRequest implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 1957248794265205175L;
-    @NotBlank
+    @NotBlank(message = "publisher_name must not be blank")
     private String publisherName;
-    @NotBlank
+    @NotBlank(message = "company_name must not be blank")
     private String companyName;
 
     private String address;

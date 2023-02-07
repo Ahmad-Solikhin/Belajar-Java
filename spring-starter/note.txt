@@ -111,6 +111,17 @@ Jika menggunakan JPQL maka nama table itu ditulis sesuai dengan nama entity nya 
 JPA Projection
 Mengambil data lintas entity atau domain yang nantinya akan masuk kedalam 1 object
 
+-----------------------------------------
+Filter dan Interceptor
+
+Kalo filter digunakan untuk melakukan filter sebelum masuk ke dalam server dan disediakan oleh servelet server
+Kalo interceptor itu ada di package spring mvc dan disediakan oleh spring
+
+-----------------------------------------
+Record DTO
+Pada java 17 ada alternatif dari penggunaan @Data dengan menggunakan Record sebagai DTO
+
+
 
 
 

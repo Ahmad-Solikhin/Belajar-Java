@@ -1,10 +1,12 @@
 package spring.starter.controller;
 
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import org.apache.coyote.Response;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import spring.starter.dto.ResultPaginationResponse;
 import spring.starter.dto.publisher.PublisherAddRequest;
@@ -15,6 +17,8 @@ import spring.starter.service.PublisherService;
 import javax.naming.Name;
 import java.net.URI;
 
+//Annotation untuk validasi di path variable
+@Validated
 @RestController
 @RequestMapping("api/v1/publishers")
 @AllArgsConstructor
@@ -30,9 +34,9 @@ public class PublisherController {
 
         return ResponseEntity.created(URI.create("/v1/publisher")).build();
     }
-    @PreAuthorize("hasRole('admin')")
+    @PreAuthorize("hasAnyRole('admin')")
     @PutMapping("{publisherId}")
-    public ResponseEntity<Void> updatePublisher(@PathVariable("publisherId") String secureId
+    public ResponseEntity<Void> updatePublisher(@PathVariable("publisherId") @Size(max = 36, min = 36, message = "not UUID") String secureId
             , @RequestBody PublisherUpdateRequest request){
         publisherService.updatePublisher(secureId, request );
 
