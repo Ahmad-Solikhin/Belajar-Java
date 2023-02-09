@@ -3,6 +3,8 @@ package spring.starter.controller;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import spring.starter.dto.ResultPaginationResponse;
 import spring.starter.dto.book.BookAddRequest;
@@ -16,12 +18,14 @@ import java.util.List;
 
 @Slf4j
 @AllArgsConstructor
+@Validated
 @RestController
 @RequestMapping("api")
 public class BookResource {
 
     private final BookService bookService;
 
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("v1/books/{id}/detail")
     public ResponseEntity<BookDetailResponse> findById(@PathVariable("id") String id){
         var result = bookService.findDetailById(id);
@@ -49,6 +53,7 @@ public class BookResource {
      * nama penerbit
      * nama penulis
      * */
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("v2/books/list")
     public ResponseEntity<ResultPaginationResponse<BookListResponse>> showBookList(
             @RequestParam(name = "page", defaultValue = "0") Integer page,

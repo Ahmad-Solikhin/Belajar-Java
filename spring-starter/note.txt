@@ -121,6 +121,12 @@ Kalo interceptor itu ada di package spring mvc dan disediakan oleh spring
 Record DTO
 Pada java 17 ada alternatif dari penggunaan @Data dengan menggunakan Record sebagai DTO
 
+-----------------------------------------
+JWT (Json Web Token)
+handler berungsi untuk memberikan return apakah sukses atau gagal
+
+
+
 
 
 

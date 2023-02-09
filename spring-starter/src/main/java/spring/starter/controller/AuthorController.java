@@ -3,6 +3,7 @@ package spring.starter.controller;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import spring.starter.dto.author.AuthorAddRequest;
@@ -21,6 +22,7 @@ public class AuthorController {
 
     private final AuthorService authorService;
 
+    @PreAuthorize("hasAnyRole('admin', 'user')")
     @GetMapping("{authorId}/detail")
     public ResponseEntity<AuthorResponse> findAuthorById(@PathVariable("authorId") String id){
         return ResponseEntity.ok().body(authorService.findById(id));

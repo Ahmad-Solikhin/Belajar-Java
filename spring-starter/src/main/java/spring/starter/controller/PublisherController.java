@@ -3,7 +3,6 @@ package spring.starter.controller;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
-import org.apache.coyote.Response;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
@@ -42,7 +41,7 @@ public class PublisherController {
 
         return ResponseEntity.ok().build();
     }
-    @PreAuthorize("isAuthenticated()")
+//    @PreAuthorize("isAuthenticated()")
     @GetMapping
     public ResponseEntity<ResultPaginationResponse<PublisherListResponse>> getListPublisherPage(
             @RequestParam(name = "pages", defaultValue = "0") Integer page,
@@ -51,7 +50,7 @@ public class PublisherController {
             @RequestParam(name = "direction", defaultValue = "asc") String direction,
             @RequestParam(name = "publisherName", required = false) String publisherName
     ){
-
+        System.out.println("Haiyyaaa");
         return ResponseEntity.ok().body(publisherService.findPublisherList(page, limit, sortBy, direction, publisherName));
     }
 

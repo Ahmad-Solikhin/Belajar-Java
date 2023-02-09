@@ -1,16 +1,13 @@
-package spring.starter.dto.author;
+package spring.starter.dto;
 
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import lombok.Data;
 
-import java.time.LocalDate;
-
-
 @Data
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
-public class AuthorResponse {
+public class LoginRequest {
 
-    private String authorName;
-    private LocalDate birthDate;
+    private String username;
+    private String password;
 }
