@@ -1,5 +1,6 @@
 package spring.starter.controller;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,6 +14,7 @@ import java.net.URI;
 @RestController
 @AllArgsConstructor
 @RequestMapping("api/v1/categories")
+@SecurityRequirement(name = "bearerAuth")
 public class CategoryController {
 
     public final CategoryService categoryService;

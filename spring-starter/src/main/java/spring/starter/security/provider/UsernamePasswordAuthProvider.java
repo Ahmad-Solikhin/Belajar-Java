@@ -30,19 +30,20 @@ public class UsernamePasswordAuthProvider implements AuthenticationProvider {
     //Digunakan untuk melakukan proses authentication seperti authentication manager
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
-        String username = authentication.getPrincipal().toString();
-        String password = authentication.getCredentials().toString();
+        String username = (String) authentication.getPrincipal();
+        String password = (String) authentication.getCredentials();
 
-        UserDetails userDetails = appUserService.loadUserByUsername(username);
+        UserDetails appUser =  appUserService.loadUserByUsername(username);
+        if(!passwordEncoder.matches(password, appUser.getPassword())) {
+            throw new BadCredentialsException("invalid.username.password");
+        }
 
-        if (!passwordEncoder.matches(password, userDetails.getPassword())) throw new BadCredentialsException("Invalid Username or Password");
-
-        return new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+        return new UsernamePasswordAuthenticationToken(appUser, null, appUser.getAuthorities());
     }
 
     //Method untuk menentukan apakah token yang diberikan didukung atau tidak
     @Override
     public boolean supports(Class<?> authentication) {
-        return UsernamePasswordAuthenticationToken.class.isAssignableFrom(authentication);
+        return (UsernamePasswordAuthenticationToken.class.isAssignableFrom(authentication));
     }
 }

@@ -1,5 +1,6 @@
 package spring.starter.controller;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +19,7 @@ import java.util.List;
 @RestController
 @AllArgsConstructor
 @RequestMapping("api/v1/authors")
+@SecurityRequirement(name = "bearerAuth")
 public class AuthorController {
 
     private final AuthorService authorService;

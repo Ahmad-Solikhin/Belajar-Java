@@ -1,5 +1,6 @@
 package spring.starter.controller;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
@@ -21,6 +22,8 @@ import java.net.URI;
 @RestController
 @RequestMapping("api/v1/publishers")
 @AllArgsConstructor
+//Annotation OpenAPI
+@SecurityRequirement(name = "bearerAuth")
 public class PublisherController {
 
     private final PublisherService publisherService;

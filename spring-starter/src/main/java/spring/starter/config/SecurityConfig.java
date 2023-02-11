@@ -33,7 +33,6 @@ import java.util.List;
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
-@Slf4j
 public class SecurityConfig {
     private final static String AUTH_URL = "/api/v1/login";
     private final static String V1_URL = "/api/v1/**";
@@ -90,13 +89,12 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http, UsernamePasswordAuthProcessingFilter usernamePasswordAuthProcessingFilter,
                                                    JwtAuthProcessingFilter jwtAuthProcessingFilter) throws Exception {
         http.authorizeHttpRequests().requestMatchers(V1_URL, V2_URL).authenticated()
+                .anyRequest().permitAll()
                 .and()
                 .csrf().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
-                .httpBasic();
-
-        http.addFilterBefore(usernamePasswordAuthProcessingFilter, UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(usernamePasswordAuthProcessingFilter, UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore(jwtAuthProcessingFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }

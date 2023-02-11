@@ -125,6 +125,11 @@ Pada java 17 ada alternatif dari penggunaan @Data dengan menggunakan Record seba
 JWT (Json Web Token)
 handler berungsi untuk memberikan return apakah sukses atau gagal
 
+-----------------------------------------
+Swagger
+Merupakan dokumentasi yang digunakan pada RESTful API dengan spesifikasi OpenAPI
+
+
 
 
 

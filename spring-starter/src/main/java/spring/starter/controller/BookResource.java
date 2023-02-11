@@ -1,5 +1,6 @@
 package spring.starter.controller;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +13,7 @@ import spring.starter.dto.book.BookDetailResponse;
 import spring.starter.dto.BookUpdateRequest;
 import spring.starter.dto.book.BookListResponse;
 import spring.starter.service.BookService;
+import spring.starter.service.impl.BookServiceImpl;
 
 import java.net.URI;
 import java.util.List;
@@ -21,6 +23,7 @@ import java.util.List;
 @Validated
 @RestController
 @RequestMapping("api")
+@SecurityRequirement(name = "bearerAuth")
 public class BookResource {
 
     private final BookService bookService;
