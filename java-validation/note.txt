@@ -1,0 +1,9 @@
+Validator
+Kelas utama dalam Bean validation yang berfungsi untuk mengeksekusi validation nya
+Validator cukup dibuat satu kali saja karena object nya sangat berat
+
+----------------------------------------------------
+ValidatorFactory
+Merupakan object untuk membuat validator, karena ValidatorFactory ini merupakan interface
+Maka kelas konkrit nya dibuat menggunakan hibernate
+Ini juga dibuat sekali aja kayak validator karena berat object nya
