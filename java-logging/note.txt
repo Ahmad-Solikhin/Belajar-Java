@@ -1,0 +1,51 @@
+Logger
+Saat membuat logger biasanya menggunakan nama class loggernya karena dibuat per-class
+Ini untuk mempermudah untuk melihat hasil log nya
+Dalam membuat logger tidak perlu membuat class secara manual tinggal memanfaatkan logger factorynya
+
+--------------------------------------------------------------
+Level
+Level merupakan level jenis informasi log nya
+Ini dapat disesuaikan dengan jenis error nya
+Beberapa level yang ada sesuai dengan levelnya:
+- trace : menambahkan infromasi tracing atau melakukan lacak
+- debug : menambahkan infromasi debug
+- info : menambahkan infromasi
+- warn : menambahkan peringatan
+- error : memberitahu jika ada error
+
+--------------------------------------------------------------
+Log Format
+Jika ingin menggunakan string concat di log bisa menggunakan method overloading nya
+sebagai contoh:
+- level(String, Object...)
+- level(String, Throwable)
+
+--------------------------------------------------------------
+Configuration
+konfigurasi ini digunakan jika saat develop ingin menampilkan sampai trace, namun di prod ingin sampai level warn saja
+Hal ini bisa membuat file xml sebagai configurasi nya di default package
+
+--------------------------------------------------------------
+Logger Package
+Digunakan jika ingin membatasi log untuk package yang berbeda-beda
+
+--------------------------------------------------------------
+Appender
+Merupakan tempat dimana menentukan destinasi log filenya
+Logback sudah menyediakan banyak appender, namun bisa juga dibuat sendiri
+Namun dengan menggunakan bawaannya sudah cukup
+- Console : Hanya akan ditampilkan ke terminal
+- File : mengirim log ke file, ini cocok jika aplikasi di deploy di VM
+- RollingFile : ini sama kayak file, tapi bisa dibatasi, misal jika ukuran file atau waktu sudah mencapai batas makan akan dibuat file baru
+
+--------------------------------------------------------------
+Layout
+Komponen dari log untuk mengubah log menjadi string
+Biasanya menggunakan patternLayout
+
+--------------------------------------------------------------
+Mapped Diagnostic Context
+Dengan menggunakan MDC, datanya bisa diakses oleh logger
+Operasi yang ada di MDC sama seperti Map
+

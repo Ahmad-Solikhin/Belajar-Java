@@ -1,0 +1,9 @@
+13:41:12.717 [main] INFO  com.gayuh.javalogging.MyController -- b6df1159-c584-4980-8e23-1c2f482890e5, controller save
+13:41:12.722 [main] INFO  com.gayuh.javalogging.MyService -- b6df1159-c584-4980-8e23-1c2f482890e5, service save
+13:41:12.723 [main] INFO  com.gayuh.javalogging.MyRepository -- b6df1159-c584-4980-8e23-1c2f482890e5, repository save
+13:47:37.831 [main] INFO  com.gayuh.javalogging.MyController - [11de14e0-f207-4bab-a905-b2b7751d5d62] - 11de14e0-f207-4bab-a905-b2b7751d5d62, controller save
+13:47:37.835 [main] INFO  com.gayuh.javalogging.MyService - [11de14e0-f207-4bab-a905-b2b7751d5d62] - 11de14e0-f207-4bab-a905-b2b7751d5d62, service save
+13:47:37.836 [main] INFO  com.gayuh.javalogging.MyRepository - [11de14e0-f207-4bab-a905-b2b7751d5d62] - 11de14e0-f207-4bab-a905-b2b7751d5d62, repository save
+13:49:26.914 [main] INFO  com.gayuh.javalogging.MyController - [25e3ca5b-64c1-4153-a35b-44c7b0b9b914] - controller save
+13:49:26.915 [main] INFO  com.gayuh.javalogging.MyService - [25e3ca5b-64c1-4153-a35b-44c7b0b9b914] - service save
+13:49:26.916 [main] INFO  com.gayuh.javalogging.MyRepository - [25e3ca5b-64c1-4153-a35b-44c7b0b9b914] - repository save
