@@ -7,3 +7,110 @@ ValidatorFactory
 Merupakan object untuk membuat validator, karena ValidatorFactory ini merupakan interface
 Maka kelas konkrit nya dibuat menggunakan hibernate
 Ini juga dibuat sekali aja kayak validator karena berat object nya
+
+----------------------------------------------------
+Sebelumnya tanpa menggunakan validator biasanya akan dibuat if else secara manual
+Ini akan memakan waktu dan jika terjadi error maka akan di throw exception biasanya
+Jika menggunakan Bean validation tidak perlu lagi membuat if else secara manual lagi
+Hal ini dilakukan dengan menggunakan Annotation yang disimpan dalam field, method, parameter, dll
+
+----------------------------------------------------
+Constraint
+Digunakan sebagai penanda dimana validation digunakan pada Annotation yang diberikan
+Jika ingin membuat validation yang berbeda dan kompleks bisa membuat constraint itu sendiri
+
+----------------------------------------------------
+Constraint Violation
+Untuk mengaktifkan validation gunakan function validate()
+Jika ada kesalahan maka akan terbentuk set dengan genericnya adalah ConstraintViolation, namun jika tidak ada makan set akan berisi data kosong
+
+----------------------------------------------------
+Nested Validation
+Jika terdapat class dengan field berupa class lain dan di class tersebut ada validation, maka class tersebut tidak akan di validasi
+Untuk melakukan validasinya harus menggunakan @Valid, @Valid ini juga bisa digunakan dalam Array atau Collection
+
+----------------------------------------------------
+Hibernate Validator Constraint
+Merupakan contraint tambahan yang disediakan oleh hibernate
+
+----------------------------------------------------
+Grouping Constraint
+Misal ingin melakukan validasi constraint tertentu berdasarkan kondisi. Misal kalo pembayaran menggunakan kartu kredit maka hanya constraint kartu kreditnya saja
+Hal ini bisa dilakukan dengan melakukan grouping pada constraint dengan menambahkan group saat melakukan validasi
+Setiap constraint bisa memiliki lebih dari 1 grup
+Untuk membuat grouping perlu membuat terlebih dahulu interface kosong sebagai penanda
+Kalo udah dimasukkin kedalam group, maka saat melakukan validate harus disebut groupnya apa
+Jika ingin selalu dilakukan validasi maka harus tambahkan grup Default.class
+
+----------------------------------------------------
+Group Sequence
+Digunakan untuk menentukan tahapan group mana yang divalidasi sehingga ada urutannya
+Jika ada error validasi pada salah satu group maka group selanjutnya tidak akan dilanjutkan
+
+----------------------------------------------------
+Group Conversion
+Misal ada class dimana terdapat sebuah class yang sudah memiliki field group namun dibutuhkan di class lain dengan group berbeda
+Disini bisa dilakukan konversi group sehingga tidak mengubah group asilnya menggunakan @ConvertGroup
+
+----------------------------------------------------
+Payload
+Annotation Constraint jugada payload selain message dan groups
+Untuk membuatnya bisa membuat dari turunan interface payload danbisa leih dari satu
+
+----------------------------------------------------
+Method Validation
+Selaih field bisa digunakan dalam method baik dari parameter maupun return valuenya
+ExecutableValidator untuk melakukan validation di method dengan menggunakan forExecutable() di validator
+
+----------------------------------------------------
+Constructor Validation
+Method validation bisa digunakan juga di parameter tapi ada sedikit perbedaan
+
+----------------------------------------------------
+Custom Constraint
+Jika butuh validasi yang tidak disediakan bisa membuat cinstraint sendiiri
+Buat annotationnya dulu lalu membuat constraintValidator
+
+----------------------------------------------------
+Constraint Composition
+Daripada menaruh constraint satu persatu yang sangat banyak, bean validation mendukung pembuatan constraint baru yang berisikan komposisi banyak constraint
+Dengan cara membuat constraint annotation dengan menambahkan constraint lainnya
+
+----------------------------------------------------
+@ReportAsSingleViolation
+Jika ingin jadi satu error jika terdapat dua error secara bersamaan bisa menambhakan ReportAsSingleViolation
+
+----------------------------------------------------
+Class-Level Constraint
+Constraint juga bisa digunakan pada level class nya
+Ini berguna jika ingin melakukan pengecekan cross validation, atau pengecekan antar password
+Saat membuat constraint untuk class tambahkan TYPE dibagian target
+
+----------------------------------------------------
+Cross-Parameter Constraint
+SupportedValidationTarget untuk melakukan validasi cross parameter baik di method maupun constructor
+
+----------------------------------------------------
+Constraint Validator Context
+Ini dipake dalam parameter method isValid
+Digunakan untuk membuat custom message atau path sendiri jika dibutuhkan, namun biasanya tidak diperlukan
+
+----------------------------------------------------
+Constraint Descriptor
+Merupakan interface yang berisikan informasi mengenai constraintnya
+
+----------------------------------------------------
+Container Data
+Kadang jika menggunakan Collections, Optional atau List maka ini disebut container
+Jika isi dari collections adalah Object maka akan dilakukan validasi
+Namun jika isinya String atau tipe data non primitive lainnya bisa menggunakan ValueExtractor
+Cara menggunakannya adalah menambahkan constraint pada generic type nya
+
+----------------------------------------------------
+Value Extractor
+Saat menggunakan jenis data container yang bukan bawaan java harus dibuat value extractor secara manual
+
+
+
+
+
