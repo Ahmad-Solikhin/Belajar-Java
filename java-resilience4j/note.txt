@@ -1,0 +1,121 @@
+- Retry : Mengulangi eksekusi yang gagal
+- Circuit Breaker : Menolak eksekusi yang kemungkinan akan gagal
+- Rate Limiter : Membatasi eksekusi dalam kurun waktu tertentu
+- Time Limiter : Membatasi durasi eksekusi
+- Bulkhead : Membatasi eksekusi yang terjadi secara bersamaan
+- Cache : Mengingat hasil eksekusi yang sukses
+- Fallback : Menyediakan hasil dari eksekusi yang gagal
+
+----------------------------------------------------------
+Retry
+Digunakan untuk melakukan percobaan eksekusi kode sesuai jumlah yang sudah ditentukan
+Implementasi nya adalah interface bernama retry
+Retry.ofDefaults(String name)
+Ini akan membungkus lambda ke dalam resilience4j dan akan dieksekusi secara otomatis
+Default dari retry ini adalah 3 kali percobaan
+
+----------------------------------------------------------
+Retry Config
+Digunakan untuk melakukan konfigurasi retry dengan buat objek RetryConfig
+- maxAtemps : Berapa banyak attemps
+- waitDuration : Menambahkan jeda dalam melakukan retry
+- ignoreExceptions : Error yang tidak akan dilakukan retry
+- retryExceptions : Exceptions yang disebutkan secara spesifik yang akan di retry
+
+----------------------------------------------------------
+Retry Registry
+Ini merupakan kosep pooling kayak pooling di DB
+Registry ini adalah best practice yang direkomendasikan ketika menggunakan Resilience4j
+
+Di dalam retry registery juga bisa menggunakan config nya, dengan cara menambahkan config nya ke registry degan nama
+
+----------------------------------------------------------
+Rate Limiter
+Membatasi jumlah request untuk menjalankan program dalam jumlah tertentu, jika sudah melebihi maka akan terjadi error
+Jumlah tertentu itu ditentukan berdasarkan waktu yang ditentukan, misal 100 request dalam 1 menit
+
+----------------------------------------------------------
+Rate Limiter Config
+- limitForPeriod : Jumlah yang diperboehkan
+- limitRefreshPeriod : Waktu untuk melakukan refresh jumlah request
+- timeoutDuration : Waktu menunggu rateLimiter, misal eksekusinya lebih dari 5 detik maka akan timeout
+
+----------------------------------------------------------
+Rate Limiter Registry
+Sama aja kayak Retry Registry
+
+----------------------------------------------------------
+Bulkhead
+Ini pake thread agak ribet guys
+Ada dua implementasi Bulkhead
+- Semaphore
+- Fix Threadpool
+Jika Bulkhead nya penuh maka secara otomatis akan mengembalikan error BulkheadFullException
+
+----------------------------------------------------------
+Bulkhead Config
+Konfigurasinya mengikuti implementasi Bulkheadnya
+- Semaphore
+    - maxConcurrentCalls : Maksimal eksekusi paralel yang diperbolehkan
+    - maxWaitDuration : Batas maksimal durasi eksekuasi menunggu bulkhead
+- Fix Threadpool
+    - maxThreadPoolSize : Maksimal thread yang terdapat di pool
+    - coreThreadPollSize : Minimal thread awal yang ada di pool
+    - queueCapacity : kapasitas antrain
+    - keepAliveDuration : Lama thread hidup ketika tidak bekerja atau idle
+
+----------------------------------------------------------
+Bulkhead Registry
+Sama aja sih kayak registry2x sebelumnya, tapi ada dua yaitu
+- Semaphore : BulkheadRegistry
+- Fix Threadpool : ThreadPoolBulkheadRegistry
+
+----------------------------------------------------------
+Time Limiter
+Membatasi durasi eksekusi kode program
+Misal eksekusi program A adalah 5 detik, dika melewati itu maka akan error
+Objek nya adalah future
+
+----------------------------------------------------------
+Time Limiter Config
+- timeoutDuration : Waktu berapa lama ditunggu
+- cancelRunningFuture : Kalo true maka future akan dibatalkan
+
+----------------------------------------------------------
+Time Limiter Registry
+Caranya sama aja kayak registry lainnya
+
+----------------------------------------------------------
+Circuit Breaker
+Ini adalah implemantasi dari finite state machine
+Ini kayak saklar lampu
+Kalo open maka akan ditolak
+Jika close, maka akan jalan
+Jika HALF_OPEN, dimana menerima beberapa request yang akan dicoba. jika berhasil maka akan open
+
+Pertama kali circuit breaker dibuat maka statusnya close, jika terjadi error atau exception maka akan diubah menjadi open sesuai threshold yang diset
+Setelah menunggu dengan waktu yang di set, maka akan menjadi half open dengan menerima beberapa request saja yang diterima
+Jika kegagalan melebihi batas lagi maka akan di open lagi, jika tidak maka akan di close lagi
+
+----------------------------------------------------------
+Circuit Breaker Config
+Selain error rate menggunakan jumlah, bisa juga diubah dengan menggunakan waktu
+Berikut adalah pengaturan yang bisa diubah pada circuit breaker
+- failureRateThreshold : Persentase error untuk berubah menjadi error
+- slidingWindowType : Ada COUNT_BASED ada TIME_BASED
+- slidingWindowSIze : Ini mengikuti windowType nya
+- minimumNumberOfCalls : Ini jumlah minimal eksekusi sebelum error rate dihitung
+- waitDurationOpenState : Berapa lama waktu untuk mengubah OPEN menjadi HALF_OPEN
+- permittedNumberOfCalls : Berapa jumlah eksekusi yang diperbolehkan ketika HALF_OPEN
+- maxWaitDurationInHalfOpenState : Berapa maksimal menunggu di HALF_OPEN kembali menjadi OPEN, defaultnya 0, jadi walau gada request akan terus ditunggu
+- showCallDurationThreshold : Kalo melebihi nilai akan dianggap lambat dan dibatalkan
+- slowCallRateThreshold : Persentase dimana jika menyentuh nilai yang di set maka akan diubah menjadi OPEN
+- igmoreExceptions : Exceptions yang tidak dianggap menjadi error
+
+----------------------------------------------------------
+Circuit Breaker Registry
+Ini sama aja kayak registry yang lainnya
+
+
+
+
