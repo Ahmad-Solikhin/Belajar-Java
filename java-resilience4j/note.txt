@@ -116,6 +116,30 @@ Berikut adalah pengaturan yang bisa diubah pada circuit breaker
 Circuit Breaker Registry
 Ini sama aja kayak registry yang lainnya
 
+----------------------------------------------------------
+Decorators
+Misal ingin menggabungkan retry dengan rate limiter atau menggabungkan lainnya
+Dengan decorators ini bisa menggabungkan secara bersamaan kecuali modul time limiter
+Lalu pada pembuatannya tinggal tambahkan with
 
+----------------------------------------------------------
+Fallback
+Jika mengembalikan value bisa menambahkan fallback di dalam decorators
+Artinya jika terjadi error maka fallback yang akan diberikan
+
+----------------------------------------------------------
+Metric
+Bisa melihat data metric dari objek yang digunakan, bisa dilihat grafiknya
+Caranya menggunakan getMetrics()
+
+----------------------------------------------------------
+Event Publisher
+Ini merupakan fitur untuk mengirim event atau kejadian ketika kejadian tersebut terjadi
+Misal ada kejadian retry atau sebagainya
+Untuk mendapatkan event publisher bisa menggunakan getEvenPublisher()
+
+----------------------------------------------------------
+Event Publisher di Registry
+Semua registry juga memiliki event publisher, namun lebih generic dn hanya menginfokan mengenai objek baru maupun objek yang dihapus
 
 
