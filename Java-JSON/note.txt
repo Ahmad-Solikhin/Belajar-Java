@@ -1,0 +1,62 @@
+Untuk Objek mapper cukup dibuat sekali saja dan bisa digunakan berkali2x
+
+Untuk buat JSON bisa dibuat Map dulu di java dan nantinya menggunakan object mapper
+
+method dari object mapper
+- writeValue(output, object), output merupakan dimana object akan disimpan
+- writerValueAsString(object)
+- writeValueAsBytes(object)
+
+----------------------------------------------
+Membaca JSON menjadi map di java menggunakan readValue(input, typereference)
+
+----------------------------------------------
+Membuat JSON array bisa menggunakan Collection dari java
+
+Membaca json array sama saja kayak baca object
+
+----------------------------------------------
+Konversi Object ke JSON
+Kalo pake map biasanya harus input manual satu2x pake setter getter
+Dengan object ini hal ini akan otomatis dibuatkan oleh jackson
+Untuk attribute nya akan menggunakan nama field dari class nya
+
+
+Untuk konversi sebaliknya dari JSOn ke Object sama aja kayak list dan mao
+Cuma gaperlu pake TypeReference, tapi pake nama class nya apa
+
+----------------------------------------------
+Mapper Feature
+
+Pada object mapper bisa dilakukan konfigurasi
+Seperti menggunakan annotation, sort by alphabet
+
+----------------------------------------------
+Deserialization
+Jakson memiliki banyak fitur yang bisa diaktifkan atau di aktifkan
+Deserialization ini adalah proses membaca JSON menjadi Object Java
+
+----------------------------------------------
+Serialization
+Ini dari Object ke JSON
+
+----------------------------------------------
+Serialization Inclusion
+Secara default jika isi object nya null maka akan tetap dibuat Json
+dengan incluseion bisa menentukan mana yang wajib ada dan tidak harus dimasukkan jika null
+
+----------------------------------------------
+Date Time
+JSON tidak memiliki tipe data waktu
+Biasanya untuk tipe data date time menggunakan milis atau menggunakan string
+Secara default jackson menampilkan dalam format milis
+Jika ingin menggunakan string, harus dilakukan konfigurasi pada object mapper nya. Harus diberitahu juga date formatnya dan menonaktifkan fitur milis
+
+----------------------------------------------\
+Jackson Annotation
+Ada beberapa annotation yang bisa mengubah behaviour nya
+- @JsonIgnore, menandai field yang akan di ignore
+- @JsonFormat, untuk mengubah misal date time
+- @JsonProperty, untuk mengubah attribute ketika proses serialization dan deserialization
+
+
