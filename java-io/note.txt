@@ -1,0 +1,112 @@
+File di java bisa saja tidak ada walaupun sudah membuat objek File menggunakan nama file nya
+
+Untuk penggunaan IO di Java versi baru lebih baik menggunakan Path dibandingkan File
+
+--------------------------------------------------
+Bisa menggunakan absolute atau relative path name
+
+Absolute berarti menyebutkan path nya dari root path
+Jika relative bisa menyebutkan dari posisi saat ini, dalam relative bisa naik ka atas file menggunakan ../namafile.txt
+
+--------------------------------------------------
+Path
+
+Path merupakan interface
+Bisa dibuat menggunakan static method untuk membuatnya
+
+--------------------------------------------------
+Bisa menggunalan class Files untuk menggunakan method seperti yang ada di File
+
+--------------------------------------------------
+Manipulasi File
+Dengan menggunakan class FIles bisa dilakukan manipulasi file
+- createFile()
+- delete(), deleteIfExist()
+- copy()
+- move()
+
+--------------------------------------------------
+Membuat directory
+
+- createDirectories()
+- createDirectory()
+- newDirectoryStream()
+- isDirectory()
+
+--------------------------------------------------
+Closable Interface
+
+Ini digunakan untuk menghindari memory leak (Kondisi dimana IO Stream tidak bisa dihapus oleh gerbage collector)
+
+--------------------------------------------------
+Numeric Data
+IO Stream membaca data dalam byte
+int = 4 byte
+long = 8 byte
+short = 2 byte
+
+Untuk tipe data karakter bisa menggunakan Reader dan Writer
+Dengan menggunakan Reader dan Writer konversi ke text bisa dilakukan secara otomatis
+
+--------------------------------------------------
+Input Stream
+Direkomendasikan untuk file yang bukan berupa text, seperti video, gambar, dsb
+Jika datanya dikit bisa menggunakan method read()
+Jika banyak bisa menggunakan read(bytes) agar bisa membaca data sekaligus sebanyak panjang bytes
+Bisa menggunakan readAllBytes() pada kasus data besar namun ada kelemahan karena disimpan di memory
+Method read() akan mengembalikan -1 jika sudah tidak ada data lagi
+
+Output Stream
+Digunakan untuk menulis ke resource
+OutputStream disarankan untuk menulis data non text
+Menggunakan method write()
+Saat melakukan close maka akan disimpan secara permanent ke target recource
+Namun jika menggunakan method flush() untuk data besar bisa menyimpan data ke resource sebelum sistem crash
+Secara garis besar flush() ini digunakan untuk menyimpan secara bertahap
+
+--------------------------------------------------
+Reader
+Digunakan untuk membaca data berupa text
+Bisa perkarakter menggunakan read() dan read(char[])
+Ini mirip sekali dengam Input Stream
+
+--------------------------------------------------
+Writer
+Digunakan untuk menulis data berupa text
+Ini mirip kayak output stream
+Bisa menggunakan write()
+
+--------------------------------------------------
+Open Option
+Merupakan interface dan untuk implementasinya menggunakan ENUM
+
+--------------------------------------------------
+Object Stream
+Jika ingin menulis objek ke file akan sangat menyulitkan jika menggunakan encapsulation menggunakan getter dan setter
+Namun hal ini sudah di disediakan secara otomatis oleh java
+Syarat untuk mengimplementasikannya adalah class harus turunan dari Serializable dan menambahkan serial version UID
+
+Untuk menyimpannya menggunakan ObjectInputStream untuk membaca dan ObjectOutputStream untuk menuliskan
+
+Java Collection bisa disimpan dalam file menggunakan Object Stream, namun syaratnya isi data harus data Serializable
+
+--------------------------------------------------
+Memory Stream
+Misal ingin membuat IO Stream namun resource nya tidak di file namun di memory
+
+- ByteArrayInputStream = mengambil data dari byte[]
+- ByteArrayOutputStream = menyimpan datanya di byte[] di memory
+- StringReader = Mengambil data dari String
+- StringWriter = menyimpan data di String
+
+--------------------------------------------------
+Print Stream
+Output Stream bisa menerima berbagai jenis data
+Contoh penggunaan dari print stream ini adalah sout
+
+--------------------------------------------------
+Scanner
+Ini lawannya dari print stream untuk membaca data
+method dengan awalan next() untuk membaca data
+method dengan awalan has() untuk mengecek data
+
