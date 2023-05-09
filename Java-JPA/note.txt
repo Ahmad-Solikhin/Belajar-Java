@@ -1,0 +1,22 @@
+CLOB
+Untuk tipe data large object bertipe karakter seperti text
+
+BLOB
+Untuk menyimpan data besar berupa data gambar, video, atau semacamnya yang bukan text
+
+LOB = Annotation yang dibutuhkan untuk memberitahu jika ini merupakan large object
+
+Transient digunakan untuk menandai jika attribute di class bukan sebuah kolom di table
+
+Optimistic locking : Tidak melakukan lock ke data nya, Siapa yang duluan dia yang dapat. Data tidak akan di lock saat diambil
+Pessimistic Locking : Data akan dilock saat diambil, dan transaksi lainnya akan menunggu selesai dulu
+
+
+Optimistic Locking
+Menambah versi data pada class entity nya, setiap ada perubahan maka versinya akan berubah
+Konsekuensinya adalah transaksi akan sering melakukan rollback jika data telah berubah
+
+Pessimistic Locking
+Konsepnya seperti mengantri
+Transaksi yang pertama akan melock datanya, jika ada transaksi selanjutnya menginginkan data yang sama, maka akan diminta untuk menunggu
+
