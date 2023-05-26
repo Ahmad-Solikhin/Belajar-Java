@@ -1,0 +1,25 @@
+Logging Level
+
+Untuk mendefinisikan logging level bisa dilakukan dalam application.properties
+Contoh logging.level.root=info : root = semuanya
+        logging.level.namapackagenya=warn : ini didefinisiin tiap packagenya
+
+-----------------------------------------------
+File Output
+
+Defaultnya output logging hanya di console
+Namun ada fitur atau konfigurasi untuk melakukan output ke file
+
+untuk mennetukan lokasi bisa menggunakan logging.file.name atau logging.file.path
+
+-----------------------------------------------
+Log Group
+
+Misal ingin menggunakan membuat konfigurasi level yang sama pada beberapa package
+Hal ini bisa digunakan dengan menggunakan log group, namanya bisa digunakan sebagai pengaturan dari groupnya
+Jadi nanti logging.group.nama=package1,package2,dst
+Dalam bawaan spring ada group web dan sql
+
+
+
+

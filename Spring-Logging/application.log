@@ -1,0 +1,2 @@
+2023-05-26T17:44:19.840+07:00  WARN 13400 --- [main] com.gayuh.SpringLogging.LoggingTest      : Warn
+2023-05-26T17:44:19.847+07:00 ERROR 13400 --- [main] com.gayuh.SpringLogging.LoggingTest      : Error
