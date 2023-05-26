@@ -1,0 +1,40 @@
+package com.gayuh.spring.config.profileproperties;
+
+import lombok.Getter;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.stereotype.Component;
+import org.springframework.test.context.ActiveProfiles;
+
+@SpringBootTest(classes = ProfilePropertiesTest.TestApplication.class)
+@ActiveProfiles({"test", "production"})
+public class ProfilePropertiesTest {
+
+    @Autowired
+    private TestApplication.ProfileProperties properties;
+
+    @Test
+    void testProfile() {
+        System.out.println(properties.getDefaultFile());
+        System.out.println(properties.productionFile);
+        System.out.println(properties.testFile);
+    }
+
+    @SpringBootApplication
+    public static class TestApplication{
+
+        @Getter
+        @Component
+        public static class ProfileProperties{
+            @Value("${profile.default}")
+            private String defaultFile;
+            @Value("${profile.production}")
+            private String productionFile;
+            @Value("${profile.test}")
+            private String testFile;
+        }
+    }
+}

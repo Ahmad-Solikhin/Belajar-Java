@@ -1,0 +1,132 @@
+Resource Loader
+
+Mengambil data resource secara otomatis
+menggunakan method getResource(String)
+- classpath : mengambil resource dari classpath
+- file : mengambil dari file sistem
+- https : mengambil resource dari http
+
+Bisa menggunakan ResourceLoaderAware untuk mendapatkan secara otomatis
+
+--------------------------------------------------
+Message Source
+
+mengambil message dari resource
+method getMessage()
+
+menggunakan ResourceBundleMessageSource untuk membuat message source
+
+Kalo pake spring boot gausah bikin massage source manual lagi, tinggal pake yang udah ada dan mengambil dari messages.properties
+
+--------------------------------------------------
+application.properties
+
+merupakan lokasi dimana semua konfigurasi aplikasi ditaruh
+
+--------------------------------------------------
+Environment
+
+Selain untuk mengambil data di application.properties, environment juga bisa digunakan untuk mengambil env variable di sistem operasi
+Untuk melakukannya bisa mengguunakan EnvironmentAware untuk mendapatkan object Environment
+
+--------------------------------------------------
+Value
+
+Merupakan annotation yang bisa digunakan untuk mengambil data dari application.properties
+Contoh untuk mengambilnya adalah sebagai berikut : ${nama.propertiesnya}
+Ini direkomendasikan agar saat mengambil dari application.properties
+Selain application.properties, value juga bisa digunakan untuk mengambil env variable di sistem operasi
+
+--------------------------------------------------
+Property Source
+Secara default Properties hanya akan mengambil value dari application.properties
+Namun java memiliki fiture untuk menambah properties lainnya menggunakan fitur Property Source
+Untuk menambahkannya bisa menggunakan annotation PropertyResources
+
+--------------------------------------------------
+Test property Source
+Digunakan jika ingin menggunakan properties yang diinginkan jika ingin melakukan test
+Penggunaanya sama seperti penggunaan Property Source
+
+--------------------------------------------------
+Profile
+
+Fitur yang dapat digunakan untuk menentukan componen mana yang akan dibuat
+Jadi saat dijalankan dapat menentukan profile mana yang akan dijalankan
+Untuk emnggunakan profile tinggal tambahkan di component atau bean nya
+
+pada application.properties gunakan spring.profile.active digunakan untuk menentukan profile mana yang akan dijalankan, kalau tidak ditentukan maka profile default yang akan dijalankan
+Bisa mengubah profile di unit test menggunakan annotation ActiveProfiles
+
+Untuk mendapatkan profile ketika aplikasi berjalan bisa menggunakan getActiveProfiles() dari Environment
+
+--------------------------------------------------
+Profile Properties File
+
+Saat menggunakan fiture profile bisa dibuat file properties sesuai dengan profile yang aktif, dan nantinya properties itu yang akan digunakan
+Cara membuatnya adlaah application-[profile].properties
+Walaupun menyebutkan profile nya, namun application.properties tetap akan di load juga
+
+--------------------------------------------------
+Configuration Properties
+
+Bisa digunakan untuk binding secara otomatis key yang ada di application properties ke dalam property dalam bean
+Binding adalah mencocokkan bean dengan yang ada di properties nya
+annotation ConfigurationProperties digunakan untuk menandai class nya agar bisa di binding secara otomatis selain itu harus ditambahkan prefix nya
+untuk membuat spring melakukan binding secara otomatis harus dibut meta data file, tapi tidak harus dibuat secara manual karena akan di auto generate saat proses kompilasi
+
+Untuk binding otomatis nya harus menambahkan annotation EnableConfigurationProperties di SpringBootApplicationnya
+
+--------------------------------------------------
+Complex Configuration Properties
+
+ConfigurationProperties juga dapat membuat bean yang kompleks
+
+--------------------------------------------------
+Collection Configuration Properties
+
+Configuration Properties juga mendukung binding properties untuk jenis collection List atau Map
+Kadang ini bermanfaat jika data cukup kompleks
+
+Jika bentuknya collection apa yang harus dimasukkan pada properties adalah dengan menambahkan ","
+Untuk map gunakan "key=value"
+
+Untuk Embedded Collection dimana collection yang berisi bean atau class juga bisa dilakukan menggunakan fitur ini
+
+--------------------------------------------------
+Conversion
+
+Conversion digunakan untuk mengkonversi data dari preperties ke tipe data yang dimau
+Jika membutuhkan custom conversion, bisa membuat class dengan turunan dari Converter<S,T>
+Converter yang sudah dibuat harus diregistrasikan ke ConversionService agar bisa langsung digunakan
+
+--------------------------------------------------
+Conversion Service
+
+Merupakan logic utama dari converter nya
+Kalau menggunakan Spring Boot Web tidak perlu membuat secara manual karena sudah disediakan
+
+--------------------------------------------------
+Externalized Properties File
+
+Misal konfigurasi database tidak disimpan dalam kode program karena infromasinya akan berubah
+Biasanya menggunakan application.properties yang diambil dari luar file jar dan akan mereplace application.properties yang ada di dalam project
+command = java -jar lokasi/file.jar --spring.config.location=lokasi/file/application.properties
+
+Jika pake opsi pertama maka harus menulis ulang properties yang ada di dalam project ke properties luar project
+Hal ini bisa diatasi dengan menggunakan environment variable, dengan ini akan menjadi lebih mudah dan bisa membuat default value jika tidak ada
+Caranya : ${ENV_NAME:default value}
+
+--------------------------------------------------
+Mengubah Profile lewat command
+
+menambahkan --spring.profiles.active=listProfile
+
+--------------------------------------------------
+YAML (Yaml)
+
+ini salah satu konfigurasi lain selain menggunakan properties
+Penggunaan file Yaml kadang lebih mudah dibandingkan menggunakan properties
+
+
+
