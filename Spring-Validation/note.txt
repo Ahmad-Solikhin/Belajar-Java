@@ -1,0 +1,29 @@
+Custom Constraint
+
+Keuntungannya bisa membuat custom constraint nya dan bisa dijadikan bean secara otomatis
+
+-----------------------------------------------------
+Message Source
+
+Dengan message source ini bisa otomatis langsung mencari pesan error di application.properties
+
+-----------------------------------------------------
+Method Validation
+
+Dengan bantuan Spring, penggunaan dari Method Validation semakin mudah, karena akan mendeteksi secara otomatis
+
+
+-----------------------------------------------------
+Method Overriding
+
+Kalau membuat kontrak di interface tidak menggunakan bean validation, lalu pada class impl nya ditambahkan validation
+Maka akan terjadi error karena pada class impl nya dilakukan perubahan struktur kontrak
+
+Solusi agar bisa dilakukan ini adalah dengan menambahkan validasi bean nya di interfacenya juga
+
+-----------------------------------------------------
+Configuration Properties
+
+Bisa dilakukan validation juga di bean dalam configuration properties
+
+
