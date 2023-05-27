@@ -1,0 +1,113 @@
+Dengan menggunakan konsep AOP kita bisa melakukan hal yang redundant dengan lebihs simple
+
+Untuk mengaktifkan AOP bisa tambahkan annotation EnableAspectJAutoProxy di SpringBootApplication
+
+---------------------------------------
+Aspect
+
+Aspect inilah yang akan dibuat untuk menggunakan AOP dengan menambahkan annotation Aspect
+Dalam class aspect ini dimasukkan behaviour dengan menambahkan method pada aspect tersebut
+
+---------------------------------------
+Join Point
+
+Join point ini adalah titik lokasi eksekusi program, contohnya
+- eksekusi method hello() di HelloService
+- eksekusi semua method public di HelloService
+- eksekusi semua method yang ada @Test
+- eksekusi method di package service yang throw exception
+- dan sebagainya
+
+Join Point yang didukung hanya pada eksekusi pada method pada spring bean
+
+---------------------------------------
+Point Cut
+
+Ini adalaha kondisi yang digunakan untuk menentukan join point, jadi kalo kondisi memenuhi maka Aspect akan mengeksekusi Advice
+Untuk membuat PointCut perlu menggunakan annotation PointCut
+Jadi kondisi titik lokasi program pada join point harus disebutkan di point cut
+
+---------------------------------------
+PointCut Expression
+
+Saat membuat point cut harus menyebutkan ekspression sebagai kondisi join point nya
+PointCut Expression yang didukung oleh Spring AOP hanya yang berhubungan dengan method
+- execution : terjadi di method
+- within : object sesuai yang ditentukan
+- this : methodnya harus berada di bean yang ditentukan
+- target : object yang merupakan instance dari tipe yang ditentukan
+- args : method apapun yang memiliki argument method yang telah ditentukan, misal di method dengan 2 parameter String dan Integer
+- @target : object memiliki annotation yang telah ditentukan
+- @args : di method dengan parameter yang memiliki annotation
+- @within : method di object yang memiliki annotation yang telah ditentukan
+- @annotation : di dalam method dengan annotation yang ditentukan
+- bean : object dengan nama bean yang sesuai yang telah ditentukan
+
+---------------------------------------
+Advice
+
+Aksi yang dilakukan oleh aspect dalam join pint
+- Before : dijalankan sebelum join point
+- AfterReturning : menjalankan aksi setelah join point di return success
+- AfterThrowing : menjalankan aksi setelah join point error
+- After : dijalankan setelah join point, setelah success atau error teteap akan jalan
+- Around : menjalankan aksi sebelum dan setelah
+
+Saat penggunaan Advice harus menentukan PointCut yang akan digunakan dengan menyebutkan nama method pointCut nya
+
+---------------------------------------
+Advice Parameter
+
+saat membuat Advice, bisa juga mendapatkan informasi dari detail eksekusi method nya dari object JoinPoint
+
+---------------------------------------
+Proceeding Join Point
+
+Khusus untuk Advice Around, maka parameter yang digunakan adalah ProceedingJoinPoint, karena dalam around dilakukan sebelum dan sesudah
+Untuk mengeksekusi methodnya harus mengeksekusi ProceedingJoinPoint.proceed();
+
+---------------------------------------
+Pointcut Expression Format
+
+Untuk pointCut yang bukan execution tinggal sebut nama targetnya atau menggunakan regex
+Contoh:
+- within(com.xyz.service.*) : Semua method di package service
+- within(com.xyz.service..*) : Semua method di package service dan sub package nya
+- target(com.xyz.service.AccountService) : Method di bean AccountService
+- args(java.lang.String, java.lang.String) : Semua method di bean yang memiliki dua parameter String
+- @target(org.springframework.transaction.annotation.Transactional) : semua method yang ada @Transactional
+- bean(traceService) : Semua method di bean dengan nama traceService
+- bean(*Service) : Semua method di bean dengan akhiran Service
+
+Untuk poincut execution formatnya sedikit lebih kompleks
+execution(modifier-pattern type-pattern.method-pattern(param-pattern) throws-pattern)
+Ket :
+- modifier-pattern : public, private, protected, default
+- type-pattern : diawali package diawali nama atau menggunakan regex
+
+Contoh:
+- execution(public * *(..)) : semua method public
+- execution(* set*(..)) : semua method yang diawali set
+- execution(* com.xyz.service.AccountService.*(..)) : Semua method di class AccountService
+- execution(* com.xyz.service.*.*(..)) : Semua method di package service
+- execution(* com.xyz.service..*.*(..)) : Semua method di package service dan sub-packagenya
+
+---------------------------------------
+Multiple Pointcut
+
+Bisa menggunakan pointcut lebih dari 1
+
+Misal, buat pointcut untuk package service, lalu membuat dengan sufix class akhiran Service, lalu membuat dengan modifier public
+Maka nanti akan digabungkan menjadi Semua yang ada di package service dengan method diakhiri dengan Service dan modifiernya public
+Untuk menggabungkannya harus membuat pointcut baru dengan tanda &&
+
+---------------------------------------
+Passing Parameter
+
+Saat membuat advice biasanya dibutuhkan mengambil parameter yang ada di joinpoint
+Bisa dilakukan menggunakan getArgs(), namum datanya menjadi Object[]
+Bisa memanfaatkan pointcut expression untuk mengambil data parameter dan mengirimakan ke method advice
+
+Caranya cukup args(value), artinya parameter akan dikirim ke advice dengan nama value
+Selain itu args(value1, value2)
+Misal hanya butuh beberapa parameter diawal bisa gunakan (value1, value2, ..)
