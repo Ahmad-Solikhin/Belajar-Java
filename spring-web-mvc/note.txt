@@ -1,0 +1,207 @@
+MockMVC
+
+Ini digunakan untuk mempermudah jika ingin membuat unit test
+Dengan MockMVC ini bisa dilakukan test untuk semua controller tanpa harus menjaklankan aplikasi web nya
+Untuk melakukan test menggunakan Spring MockMVC wajib mengimport dengan cara : ""
+
+Untuk menggunakan MockMVC bisa tambahakan annotation AutoConfigureMockMvc
+
+-------------------------------------------------
+Integration Test
+
+Secara default mockMvc tidak menjalankan webnya dan hanya menjalankan yang di test
+Untuk melakukan test emnggunakan web yang dijalankan juga bisa menggunakan Integration Test
+Jika sudah menggunakan Integration Test maka tidak menggunakan mockMvc lagi
+
+Untuk mengetahui nilai portnya bisa menggunakan @LocalServerPort atau @Value("${local.server.port}")
+
+-------------------------------------------------
+Mock Bean
+
+Untuk membuat mock bean tinggal gunakan annotation @MockBean
+
+-------------------------------------------------
+Request Param
+
+Menandakan apakah membutuhkan parameter atau tidak, bisa diberikan tanda wajib atau tidak dan memberikan default valuenya
+
+
+Biasanya RequestParam itu adalah String, namun bisa konversi tipe data otomatis ke tipe data yang diinginkan menggunakan konverter
+
+-------------------------------------------------
+Response Body
+
+Bisa menambahkan annotaion @ResponseBody pada method controllernya sehingga tidak perlu menulis response menggunakan HttpServletResponse
+
+-------------------------------------------------
+Request Content Type
+
+Bisa membatasi Content-Type yang diterima pada bagian mapping nya pada param consumes
+
+-------------------------------------------------
+Response Content Type
+
+Selain consumes, pada RequestMapping juga bisa menambahkan produce untuk menentukan Content-Type yang diinginkan
+
+-------------------------------------------------
+Request Header
+
+Untuk mendapatkan request header bisa didapatkan dengan menambahkan annotation @RequestHeader pada controller method
+Bisa ditentukan juga apakah datanya wajib atau engga dan bisa diberikan default valuenya
+Converter pada request param juga bisa digunakan di @RequestHeader
+
+-------------------------------------------------
+Path Variable
+
+Path variable merupakan fiture untuk membuat patterns pada url path
+Untuk menggunakan path variable bisa menggunakan annotation @PathVariable
+Ini juga memiliki konversi otomatis seperti request param
+
+-------------------------------------------------
+Form Request
+
+Untuk mendapatkan data dari form request bisa menggunakan hal yang sama dari query parameter
+Untuk di Spring bisa menggunakan annotation yang sama di @RequestParam
+
+-------------------------------------------------
+Upload File
+
+Di spring bisa menggunakan annotation @RequestPart, dengan tipe data MultipartFile
+
+Untuk melakukan pengaturan Upload file seperti ukuran file, jenis file bisa ditambahkan di application.properties
+Dengan prefix spring.servlet.multipart
+
+-------------------------------------------------
+Request Body
+
+Saat membuat web berupa RESTful API kadang datanya diambil dari request body berupa json atau sebagainya
+
+-------------------------------------------------
+Saat membuat response kadang ingin diubah response statusnya
+Jika ingin mengubah codenya bisa menggunakan @ResponseStatus di controller methodnya, namun menggunakan ini response statusnya tidak akan pernah berubah
+
+-------------------------------------------------
+Response Entity
+
+Ini adalah cara yang lebih flexible dalam membuat response
+Dalam responseEntity terdapat message, status code dan sebagainya
+
+-------------------------------------------------
+Cookie
+
+Cara membuat cookie bisa pake HttpServletResponse
+Namun untuk membacanya bisa menggunakan annotation @CookieValue
+
+-------------------------------------------------
+Model Attribute
+
+Jika banyak inputnya maka ini akan menyulitkan karena harus membuat @RequestParam yang sangat banyak
+Spring mendukung binding ke attribute menggunakan annotation @ModelAttribute
+Keuntungan dari @ModelAttribute adalah bisa langsung membuat nested object
+
+-------------------------------------------------
+Json
+
+Di dalam spring untuk response Json tidak perlu dilakukan konversi secara manual karena sudah di handle oleh jackson
+Tidak perlu juga membuat jackson secara manual lagi karena sudah disediakan oleh spring
+Kalau butuh konfigurasi jackson bisa dilakukan di application.properties dengan prefix spring.jackson
+
+-------------------------------------------------
+Validation
+
+Spring Web MVC juga terintegrasi dengan baik dengan bean validation
+Saat tidak valid maka akan secara otomatis mengembalikan bad request 400
+Khusus validasi di Controller, exception yang dibuat adalah MethodArgumentNotValidException
+
+-------------------------------------------------
+Exception Handler
+
+Saat terjadi error di controller, defaultnya akan dikembalikan response error sesuai jenisnya
+Bisa dibuat halaman error sendiri dengan membuatn @ControllerAdvice
+Nanti controller tersebut akan dipanggil
+Dengan custom error ini bisa mengembalikan response sesuai dengan yang diinginkan menggunakan controller advice
+
+-------------------------------------------------
+Error Page
+
+Jika tidak ada error page yang dibuat, maka error nya akan dibuat secara default
+Jika ingin mengatur tampilan error bisa diatur pada application.properties
+Ini diatur dengan prefix server.error.
+Untuk menggunakan custom error harus dilakukan server.error.whitelabel.enable=false
+
+-------------------------------------------------
+Binding Result
+
+Misal ada yang error tapi tetap ingin masuk ke controller bisa menggunakan Binding Result untuk mendapatkan errornya
+Binding Result hanya bisa digunakan untuk validation exception : seperti data kosong atau tidak valid
+
+-------------------------------------------------
+Session Attribute
+
+Spring memiliki cara mudah untuk session menggunakan annotation @SessionAttribute
+Tapi ini kadang jarang digunakan kalo aplikasi nya di deploy lebih dari 1 server
+
+-------------------------------------------------
+MVC Config
+
+Untuk emnambahkan pengaturan Spring Web MVC harus membuat bean turunan WebMvcConfigurer
+
+-------------------------------------------------
+Interceptor
+
+Interceptor ini digunakan seperti web filter atau disebut juga sebagai middleware
+Cara menggunakannya adalah dengan membuat class turunan dari HandleInterceptor
+Lalu menggunakan InterceptorRegistry di method addInterceptors() WebMvcConfigurer
+- preHandler : sebelum eksekusi
+- postHandler : setelah eksekusi
+- afterCompletion : setelah semuanya selesai
+
+Path dalam interceptor menggunakan Ant Path Matcher untuk regexnya
+Untuk melihat lebih detail penulisan formatnya bisa lihat class AntPathMatcher
+
+-------------------------------------------------
+Argument Resolver
+
+Kekurangan dari penggunaanya hanya bisa mengisi data yang terdapat pada parameter Controller Method
+
+-------------------------------------------------
+Static Resource
+
+Misal membutuhkan konten static seperti html, css, dsb
+Untuk menangani file ini harus dimasukkan dalam folder static di resource
+
+-------------------------------------------------
+View
+
+Jika mau mengambil response berupa file untuk viewnya di load
+Sayangnya tidak ada template bawaan dari spring untuk templatenya
+Sebagai contoh ada mustache dan thymleaf nya
+Untuk template mustache bisa disimpan di /resources/templates/*.mustache
+
+Bisa juga mengatur lokasinya di application.properties dengan prefix spring.mustache
+
+Unytuk menampilkan view bisa menggunakan return object ModelAndView pada method controller
+
+-------------------------------------------------
+Redirect
+
+Jika redirect dengan render view, maka bisa dilakukan dengan cara "redirect:tujuannya"
+
+
+-------------------------------------------------
+Rest Controller
+
+Khusus untuk membuat resfulApi bisa menggunakan @RestController dibandingkan dengan @Controller
+@RestController ini memiliki annotation @ResponseBody sehingga tidak perlu menyebutkannya di setiap method
+
+-------------------------------------------------
+Rest Template
+
+Saat membuat aplikasi web terkadang diperlukan memanggil/memanggil data ke server Web/Restful API lainnya
+hal ini bisa memanfaatkan RestTemplate sebagai HttpClient atau RestClient
+Untuk membuat RestTemplate bisa menggunakan RestTemplateBuilder yang sudah otomatis dibuatkan sebagai Bean oleh Spring
+
+Untuk mengirim request bisa menggunakan RestTemplate.exchange yang dimana diperlukan dibuat RequestEntity
+RequestEntity ini berisi info dari request kayak url, cookie, body, dan sebagainya
+Return dari exchange ini adalah ResponseEntity
+
