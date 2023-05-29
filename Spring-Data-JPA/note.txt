@@ -1,0 +1,176 @@
+Konfigurasi datasource
+
+Menggunakan prefix spring.datasource
+
+-----------------------------------------------
+Repository
+
+Repository adalah layer untuk mengelola data di database
+Setiap entity yang dibuat di JPA akan dibuat repositorynya menggunakan interface
+Cara membuat repositorynya adalah membuat interface turunan dari JpaRepository(Entity, Id)
+Dan juga bisa ditandai menggunakan annotation @Repository
+
+-----------------------------------------------
+Declarative Transaction
+
+Ini adalah management transaksi secara deklaratid menggunakan annotation @Transactional
+Jika ada annotation ini nantinya spring AOP akan secara otomatis memanggil metode transactional
+Dalam transactional, jika memanggil method dari object yang sama maka AOP nya tidak akan berjalan, jadi harus dipanggil dari objek yang berbeda
+
+-----------------------------------------------
+Transactional Propagation
+
+Misal membuat method @Transactional dan memanggil method @Transactional lainnya harus ditentukan value dalam Transactional Propagation
+- MANDATORY : Harus dipastikan transactionalnya udah ada, maksudnya yang memanggil method ini juga harus menggunakan transactional, kalau belum dimulai maka akan error
+- NESTED : Ini akan membuat transaction
+- NEVER : Ini gaboleh dipanggil oleh method lain yang transactional
+- NOT_SUPPORTED : Ini akan menunda transaction yang ada sebelumnya dan nanti akan dijalankan lagi kalau dah selesai
+- REQUIRED : Mendukung transaction sekarang yang udah ada, tapi kalo belum ada akan dibuat baru
+- REQUIRED_NEW : Selalu membuat transaction baru walaupun udah ada transaction sebelumnya, transaction yang udah ada akan ditunda terlebih dahulu
+- SUPPORTS : Mendukung transactional jika udah ada, tapi dijalankan diluar transactional kalo gada
+
+SEMUANYA HARUS DIEKSEKUSI DALAM OBJECT LAINNYA
+
+Pada kenyataannya default value REQUIRED yang akan sering digunakan
+
+-----------------------------------------------
+Programmatic Transaction
+
+Ada beberapa kasus kode yang async tidak akan bisa menjalankan Declarative Transaction
+Dengan demikian harus menggunakan Programmatic Transaction
+Ada beberapa untuk melakukannya
+- Transaction Operations
+Bisa menggunakan bean ini yang telah otomatis dibuatkan oleh spring
+
+- Platform Transaction Manager
+Ini seperti low level transaction, ada method begin, rollback, dan commit
+
+Karena ini ga pake AOP maka ini bisa diakses di dalam object yang sama
+
+-----------------------------------------------
+Query Method
+
+Query ini bisa ditentukan berdasarkan nama methodnya dan akan diterjemahkan secara otomatis ke JPA QL
+Formatnya adalah sebagai berikut:
+- findAll.. : untuk banyak data
+- findFirst.. : untuk 1 data saja
+- ..By
+
+Operator query apa saja yang didukung bisa lihat di :
+docs.spring.io/spring-data/jpa/docs/current/reference/html/#jpa.query-methods.query-creation
+
+-----------------------------------------------
+Query Relation
+
+Jika ingin mengambil dari nested class bisa menggunakan "_" sebagai pengganti "."
+
+-----------------------------------------------
+Sorting
+
+Bisa dilakukan sorting dengam menambahkan parameter Sort pada akhir methodnya
+
+-----------------------------------------------
+Paging
+
+Paging juga bisa digunakan, hal ini dilakukan menggunakan Pageable yang ditaruh diakhir parameter juga
+Ketika menggunakan Pageable gausah pake Sort lagi karena di dalamnya dah ada Sort
+
+-----------------------------------------------
+Page Result
+
+Saat paging kadang ingin tahu jumlah total data dan total page nya berapa
+Spring sudah membuatnya lebih mudah menggunagan Page<T> tanpa harus melakukan count nya secara manual
+
+-----------------------------------------------
+Count Query Method
+
+Di JPA juga bisa melakukan count dengan prefix countBy...
+
+-----------------------------------------------
+Exist Query Method
+
+Selain count bisa juga menggunakan exist dengan kembalian boolean
+Dengan menggunakan existBy..
+
+-----------------------------------------------
+Delete Query Method
+
+Bisa juga delete dengan menggunakan prefix deleteBy..
+Kembalian dari method ini bisa pake Integer untuk mengetahui berapa jumlah field yang terhapus
+
+-----------------------------------------------
+Named Query
+
+Untuk menggunakannya cukup menggunakan named query cukup buat nama method sesuai dengan named query nya
+Misal nama searchProductUsingName, maka bisa membuat method dengan nama searchProductUsingName()
+
+Named Query tidak mendukung Sort, tapi mendukung Pageable(tanpa Sort)
+
+-----------------------------------------------
+Query Annotation
+
+Jika querynya lebih kompleks lagi bisa membuat query menggunakan annotation @Query
+Dengan demikian bisa membuat query menggunakan JPA QL atau native query, untuk menentukannya bisa mengisi value nativeQuery
+Defaultnya adalah false, jika diubah jadi true maka jadi menggunakan nativeQuery
+
+-----------------------------------------------
+Modifying
+
+Query annotation juga bisa digunakan dalam melakukan modifying data dengan menambahkan annotation @Modifying pada @Query nya
+
+-----------------------------------------------
+Stream
+
+Saat returnnya List<T> bisa sangat berbahaya karena bisa menyebabkan error out of memory jika datanya sangat banya
+Hal ini bisa dtangani dengan Java Stream dengan mengambil data sedikit demi sedikit dan return nya adalah Stream<T>
+Mengambil datanya harus di dalam transaction, karena jika tidak maka tidak akan diambil datanya
+
+-----------------------------------------------
+Slice
+
+Saat mengembalikan data dalam bentuk page, maka akan mengambil data dari nomor page yang dipilih
+Dengan Slice<T> bisa mengembalikan apakah ada hasNext atau hasPrevious nya
+Semua hal yang ada di Page bisa digunakan juga di Slice
+
+-----------------------------------------------
+Locking
+
+Optimistic locking tinggal tambahin version di entity nya
+Sedangkan untuk pessimistic locking bisa dilakukan membuat query method dengan menambahkan annotation @Lock
+
+-----------------------------------------------
+Auditing
+
+Kadang di table databse ada kolom created_at dan updated_at
+Hal ini bisa lebih mudah dilakukan dengan cara menambhakna annotation @CreatedDate dan @LastModifiedDate
+Dan untuk mengaktifkannya bisa menambahkan @EnableJpaAuditing
+
+-----------------------------------------------
+Example
+
+Dengan Example ini bisa membuat query menggunakan example Entity yang dibuat
+
+Example memiliki Matcher dimana bisa diatur bagaimana Matcher nya, perlu diingat Matcher hanya bisa menggunakan equal atau =
+Yang bisa diubah adalah is null dan is not null nya, hal ini bisa dilakukan dengan membuat MatcherExamplenya
+
+-----------------------------------------------
+Specification Executor
+
+Untuk mendukung fitur ini repository harus di extends JpaSpecificationExecutor
+Specification adalah lambda yang mengembalikan JPA Predicate yang di dalamnya adlaah criteria, dalam specification ada parameter Root, CriteriaQuery dan CriteriaBuilder
+
+-----------------------------------------------
+Projection
+
+Di spring ada fiture projection dimana mengembalikan nilai return berupa class bukan Entity
+Eh tapi return valuenya bukan class tapi Interface
+karena kalo menggunakan interface, spring akan mengenali ini sebagai Projection bukan Entity
+Kalo pake interface itu aneh, bisa juga pake java record, tapi syaratnya harus di versi java 17
+Dan penggunaan record ini lebih baik daripada menggunakan interface
+
+Selain itu juga bisa menggunakan Dynamic Projection
+Pada kasus ini bisa menggunakan generic dan menambahkan parameter class nya di akhir
+
+
+
+
