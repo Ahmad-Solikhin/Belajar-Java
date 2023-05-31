@@ -9,7 +9,7 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.gayuh</groupId>
-	<artifactId>Spring-ResfulAPI</artifactId>
+	<artifactId>Spring-RestfulAPI</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>Spring-ResfulAPI</name>
 	<description>Belajar Spring RSTful API</description>

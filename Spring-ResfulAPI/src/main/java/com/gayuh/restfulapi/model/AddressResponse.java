@@ -12,9 +12,14 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
-public class TokenResponse {
+public class AddressResponse {
 
-    private String token;
-    private Long expiredAt;
+    private String id;
+    private String street;
+    private String city;
+    private String province;
+    private String country;
+    private String postalCode;
 
 }
+

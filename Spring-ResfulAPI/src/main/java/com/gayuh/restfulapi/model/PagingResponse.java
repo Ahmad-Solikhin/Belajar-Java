@@ -8,13 +8,14 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @Builder
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
-public class TokenResponse {
+public class PagingResponse {
 
-    private String token;
-    private Long expiredAt;
+    private Integer currentPage;
+    private Integer totalPage;
+    private Integer size;
 
 }

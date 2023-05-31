@@ -65,6 +65,9 @@ public class AuthControllerTest {
             WebResponse<TokenResponse> response = objectMapper.readValue(result.getResponse().getContentAsString(), new TypeReference<WebResponse<TokenResponse>>() {
             });
 
+            String responseJson = objectMapper.writeValueAsString(response);
+            System.out.println(responseJson);
+
             Assertions.assertNotNull(response.getData().getToken());
             Assertions.assertNotNull(response.getData().getExpiredAt());
 
@@ -130,6 +133,51 @@ public class AuthControllerTest {
 
             Assertions.assertNotNull(response.getErrors());
             Assertions.assertEquals("Username or Password Wrong", response.getErrors());
+        });
+    }
+
+    @Test
+    void logoutFailed() throws Exception {
+        mockMvc.perform(
+                delete("/api/auth/logout")
+                        .accept(MediaType.APPLICATION_JSON)
+        ).andExpectAll(
+                status().isUnauthorized()
+        ).andDo(result -> {
+            WebResponse<String> response = objectMapper.readValue(result.getResponse().getContentAsString(), new TypeReference<WebResponse<String>>() {
+            });
+
+            Assertions.assertNotNull(response.getErrors());
+            Assertions.assertEquals("Unauthorized", response.getErrors().trim());
+        });
+    }
+
+    @Test
+    void logoutSuccess() throws Exception {
+        User user = new User();
+        user.setTokenExpireAt(System.currentTimeMillis() + (1_000L * 60));
+        user.setToken("test");
+        user.setName("Gayuh");
+        user.setUsername("asgr39");
+        user.setPassword(BCrypt.hashpw("rahasia", BCrypt.gensalt()));
+        userRepository.save(user);
+
+        mockMvc.perform(
+                delete("/api/auth/logout")
+                        .header("X-API-TOKEN", "test")
+        ).andExpectAll(
+                status().isOk()
+        ).andDo(result -> {
+            var response = objectMapper.readValue(result.getResponse().getContentAsString(), new TypeReference<WebResponse<String>>() {
+            });
+
+            Assertions.assertNotNull(response.getData());
+            Assertions.assertEquals("Oke", response.getData().trim());
+
+            User userDb = userRepository.findById(user.getUsername()).orElse(null);
+            Assertions.assertNotNull(userDb);
+            Assertions.assertNull(userDb.getToken());
+            Assertions.assertNull(userDb.getTokenExpireAt());
         });
     }
 }

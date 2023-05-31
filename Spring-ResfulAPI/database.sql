@@ -1,3 +1,5 @@
+use belajar_spring_restful_api;
+
 create table users
 (
     username        varchar(100) not null,
@@ -15,13 +17,13 @@ from users;
 create table contacts
 (
     id         varchar(100) not null,
-    usename    varchar(100) not null,
+    username    varchar(100) not null,
     first_name varchar(100) not null,
     last_name  varchar(100) default null,
     phone      varchar(100) default null,
     email      varchar(100) default null,
     primary key (id),
-    foreign key fk_users_contacts (usename) references users (username)
+    foreign key fk_users_contacts (username) references users (username)
 ) engine innodb;
 
 select *

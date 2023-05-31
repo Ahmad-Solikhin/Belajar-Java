@@ -7,6 +7,7 @@ import com.gayuh.restfulapi.repository.UserRepository;
 import com.gayuh.restfulapi.security.BCrypt;
 import com.gayuh.restfulapi.service.ValidationService;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,6 +17,7 @@ import java.util.UUID;
 
 @Service
 @AllArgsConstructor
+@Slf4j
 public class AuthServiceImpl implements AuthService{
 
     private UserRepository userRepository;
@@ -43,7 +45,15 @@ public class AuthServiceImpl implements AuthService{
         }
     }
 
+    @Override
+    public void logout(User user) {
+        user.setToken(null);
+        user.setTokenExpireAt(null);
+
+        userRepository.save(user);
+    }
+
     private Long next30Days(){
-        return System.currentTimeMillis() + (1000 * 60 * 60 * 24 * 30);
+        return System.currentTimeMillis() + (1_000L * 60 * 60 * 24 * 30);
     }
 }

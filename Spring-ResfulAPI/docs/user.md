@@ -123,6 +123,6 @@ Request Header :
 Response Body (Success) :
 ```json
 {
-  "data" : "Ok"
+  "data" : "Oke"
 }
 ```

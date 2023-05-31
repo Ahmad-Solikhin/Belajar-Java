@@ -2,6 +2,7 @@ package com.gayuh.restfulapi.controller;
 
 import com.gayuh.restfulapi.entity.User;
 import com.gayuh.restfulapi.model.RegisterUserRequest;
+import com.gayuh.restfulapi.model.UpdateUserRequest;
 import com.gayuh.restfulapi.model.UserResponse;
 import com.gayuh.restfulapi.model.WebResponse;
 import com.gayuh.restfulapi.service.user.UserService;
@@ -23,7 +24,7 @@ public class UserController {
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public ResponseEntity<WebResponse<String>> register(@RequestBody RegisterUserRequest request){
+    public ResponseEntity<WebResponse<String>> register(@RequestBody RegisterUserRequest request) {
         userService.register(request);
 
         log.info("Create User with username {}", request.getUsername());
@@ -39,13 +40,27 @@ public class UserController {
             value = "current",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public ResponseEntity<WebResponse<UserResponse>> get(User user){
+    public ResponseEntity<WebResponse<UserResponse>> get(User user) {
         UserResponse response = userService.get(user);
 
         return ResponseEntity.ok(WebResponse
                 .<UserResponse>builder()
                 .data(response)
                 .build());
+    }
+
+    @PatchMapping(
+            value = "current",
+            consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public ResponseEntity<WebResponse<UserResponse>> update(User user, @RequestBody UpdateUserRequest request) {
+        UserResponse response = userService.update(user, request);
+        return ResponseEntity.ok(WebResponse
+                .<UserResponse>builder()
+                .data(response)
+                .build()
+        );
     }
 
 }
