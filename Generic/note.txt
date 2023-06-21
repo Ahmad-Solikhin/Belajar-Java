@@ -19,14 +19,48 @@ Ini bisa dilakukan lebih dari satu key, namun menggunakan nama key yang berbeda 
 
 Generic ini juga bisa dipake di method atau function
 
-Invariant, maksudnya tidak boleh di sibtitusi dengan inheritance nya. Jadi gaboleh subtitute ke object. Gada hubunganya generic dengan polymorphism
-Cara melakukan subtitute di generic dinamakan covariant dengan cara menambahkan ? extebds ParentClass
+=================================================
+Invariant
 
-Covariant ini read only
+Dalam invariant gada konsep inheritance, misal membuat object dengan generic data Object da mengisinya dengan String, maka tidak bisa
 
+=================================================
+Covariant
+
+Untuk melakukan polymorphism di generics bisa menggunakan covariant ini
+Caranya dengan menggunakan (? extends ParentClass), sehingga kita bisa memasukkan object turunan dari parentclass nya
+Tapi ini hanya read only, di mana tidak bisa dilakukan manipulasi datanya di dalamnya
+Hanya read-only karena pada memanipulasi maka akan terkena invariant
+
+=================================================
+Contravariant
+
+Ini sama kayak covariant tapi dibalik, di mana dari parent ke child
+Caranya (? super childClass), contravariant bisa melakukan write dan read, namun hati2x dalam read
+
+=================================================
 Bounded Type Parameter
-Membatasi tipe data yang boleh digunakan dalam generic dengan menambahkan constrain tipe apa saja yang diperbolehkan
 
+Untuk membatasi type yang diperbolehkan dalam generics dapat menggunakan fitur Bounded Type
+Sebagai contoh jika ingin number bisa menggunakan <T extends Number>
+Jika ingin menambahkan lebih dari 1 bisa dengan menambahkan &, namun cuma 1 yang boleh class, sisanya adalah interface
 
-WildCard Digunakan ketika ingin menggunakan generic tidak peduli tipe datanya apa
+=================================================
+Wildcard
+
+Ini bisa digunakan jika tidak peduli dengan tipe data pada generics nya dan hanya ingin memprint nya saja bisa menggunakan <?>
+Tipe data dari wildcard ini adalah Object
+
+=================================================
+Type Erasure
+
+Proses pengecekan generics pada compile, dan dihiraukan pada runtime
+Nantinya pada binary file generics akan diubah menjadi Object
+
+=================================================
+Comparable dan Comparator
+
+Comparable bisa di implements pada class yang dibuat untuk membandingkan object
+Jika class nya adalah milik orang lain dan tidak bisa dilakukan perubahan bisa menggunakan Comparator
+
 
