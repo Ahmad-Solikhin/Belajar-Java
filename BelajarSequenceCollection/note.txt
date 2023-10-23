@@ -1,0 +1,63 @@
+Why : This is new feature in java 21
+===============================================================================
+
+Collcetion saat ini tidak bisa melakukan operasi di depan maupun di belakang
+Class yang bisa digunakan untuk melakukan operasi tersebut saat ini hanya berupa deque
+
+Contoh
+		First Element			Last Element
+List		list.get(0)			list.get(list.size()) - 1
+Deque		deque.getFirst()		deque.getLast()
+SortedSet	sortedSet.first()		sortedSet.last()
+LinkedHashSet	linkedHashSet.iterator.next()	//Missing
+
+Sequence Interface
+
+- SequencedCollection	: list parent class
+- SequencedSet		: child of set
+- SequencedMap		: child of map
+
+Sequenced Collection
+===============================================================================
+Method2x yang bisa digunakan :
+- reversed()    : membalikan
+- addFirst()    : menambahkan ke depan
+- addLast()     : menambahkan dari belakang
+- getFirst()    : ambil paling depan
+- getLast()     : ambil paling belakang
+- removeFirst() : menghapus dan mengambil data di depan
+- removeLast()  : menghapus dan mengambil data di belakang
+
+Sequenced Set
+===============================================================================
+ini adalah interface parent dari SortedSet, karena dalam set biasa tidak ada jaminan data disimpan secara berurut
+Di sorted set semua bisa digunakan kecuali addFirst dan addLast
+Kenapa karena data yang disimpan dalam set akan secara otomatis diurutkan, jadi percuma mau pake addFirst maupun addLast
+Jika ingin menggunakan fitur add first dan last bisa mnggunakan linked set
+
+Sequenced Map
+===============================================================================
+Ini adalah implementasi dari sorted map
+Kenapa map biasa gabisa pake sequence map ini, karena sama aja kayak set yang disimpannya tidak akan berurutan sesuai kapan masuknya
+Ini juga kayak set, cuma ada put
+Method2x tambahan:
+- reversed()            : membalik
+- firstEntry()          : ambil pertama
+- lastEntry()           : ambil terakhir
+- poolFirstEntry        : ambil dan hapus pertama
+- poolLastEntry         : ambil dan hapus terakhir
+- putFirst()            : namabah di depan
+- putLast()             : nambah di akhir
+- sequencedKeySet()     : mengambil semua key
+- sequencedValues()     : mendapatkan semua values
+- sequencedEntrySet()   : mendapatkan SequenceSet Entry
+
+Untuk menggunakan fitur first dan las bisa menggunakan linked map
+
+
+
+
+
+
+
+
