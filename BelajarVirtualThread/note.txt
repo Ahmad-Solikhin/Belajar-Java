@@ -1,0 +1,34 @@
+===========================================================================
+VIRTUAL THREAD
+===========================================================================
+Ini adalah thread ringan untuk meringankan beban pada aplikasi dengan concurrency yang tinggi
+
+Perbedaan antara virtual thread dan thread di java
+Thread di java sama aja thread di OS komputer dan ini merupakan resource yang mahal
+Source yang digunakan q thread biasanya sebesar 1-2MB
+Virtual thread ini konsepnya mirip goroutine dan coroutine
+
+Cara kerjanya adalah virtual thread ini akan berjalan di atas thread biasa, dan ini tidak perlu dilakukan pembuatan thread secara manual.
+Virtual thread ini dijalankan dalam ForkJoinPool Thread, sehingga akan berjalan di atas Thread yang berjumlah sesuai dengan CPU core yang dimiliki.
+Virtual thread ini sangat ringan sehingga tidak perlu takut kehabisan resource atau memory
+
+
+Platform Thread
+===========================================================================
+Ini adalah penamaan untuk thread biasa yang dibuat
+setiap platform thread yang dibuat maka akan dibuat thread pada os nya
+Di java 21 ada cara baru menggunakan builder Thread.ofPlatform() untuk membuat platform thread baru
+
+Virtual Thread
+===========================================================================
+Cara membuatnya adalah dengan menggunakan builder Thread.ofVirtual()
+Implementasinya juga merupakan class Thread kayak platform thread
+
+Jadi kalo udah pake Java 21 sebaiknya pake virtual thread aja
+
+Virtual Thread Executor Service
+===========================================================================
+Di virtual thread juga bisa menggunakan executor service juga, namun hanya terdapat 1 saja executor servicenya dalam virtual thread
+Hal ini dikarenakan thread nya akan diolah atau diatur oleh JVM
+Executors yang bisa digunakan adalah Executors.newVirtualThreadPerTask(Executor()
+
