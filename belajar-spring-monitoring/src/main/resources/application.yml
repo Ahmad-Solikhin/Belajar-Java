@@ -1,0 +1,57 @@
+spring:
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    url: jdbc:mysql://localhost:3306/db_belajar_spring_monitoring
+    username: root
+    password: root
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      maximum-pool-size: 100
+      minimum-idle: 10
+      connection-timeout: 5000
+server:
+  port: 9999
+
+
+management:
+  info:
+    env:
+      enabled: true
+    os:
+      enabled: true
+    java:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: metrics, scheduledtasks, threaddump, heapdump, env, beans, health, info, configprops, loggers
+  endpoint:
+    metrics:
+      enabled: true
+    scheduledtasks:
+      enabled: true
+    threaddump:
+      enabled: true
+    heapdump:
+      enabled: true
+    loggers:
+      enabled: true
+    configprops:
+      enabled: true
+      show-values: always
+    health:
+      enabled: true
+      show-details: always
+    info:
+      enabled: true
+    beans:
+      enabled: true
+    env:
+      enabled: true
+      show-values: always
+info:
+  app: Bealajr Spring Monitoring
+  version: 1.0.0
+  author: Gayuh
+  website: https://www.gayuh.com
+

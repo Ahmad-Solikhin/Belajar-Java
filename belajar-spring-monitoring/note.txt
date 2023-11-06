@@ -1,0 +1,93 @@
+Monitoring
+=============================================================
+Jika aplikasi sudah selesai dibuat dan sudah digunakan oleh user
+Selanjutnya adalah melakukan minitoring pada aplikasi tersebut untuk mengetahui apakah ada masalah
+Didalam spring boot sudah ada fitur monitoring bernama spring actuator
+Itu adalah framework yang bisa digunakan untuk melakukan monitoring, dengan fitur itu tidak perlu lagi membuat secara manual
+
+Actuator Web Endpoint
+=============================================================
+Actuator bisa diakses menggunakan /actuator
+Ini akan mengembalikan fitur yang terdapat di actuator
+Untuk keamanan secara default hanya akan muncul health saja
+
+Bean
+=============================================================
+Ini bisa digunakan untuk memonitoring semua bean yang terdapat pada project yang telah dibuat
+Untuk mengaktifkannya bisa menggunakan /acutator/beans
+
+cara mengaktifkannya adalah
+management.endpoint.beans.enable = true
+management.endpoint.web.exposure.include = beans
+
+Health
+=============================================================
+Fitur untuk mengecek kesehatan dari aplikasi kita
+Untuk endpointnya adalah /actuator/health
+
+Untuk mengaktifkannya
+management.endpoint.health.enable = true
+management.endpoint.health.show-details = always
+
+Custom Health
+=============================================================
+Bisa membuat custom health dengan type HealthIndicator atau AbstractHealthIndicator
+
+Info
+=============================================================
+Actuator memiliki fitur unutk menampilkan informasi dengan prefic info
+endpointnya adalah /actuator/info
+
+Info ini juga bisa digunakan untuk memberitahu informasi info os dan versi javanya
+
+Configuration Properties
+=============================================================
+Hal ini bisa dienable untuk menampilkannya dalam actuator
+
+Env
+=============================================================
+Env baik dari os maupun manual setup bisa ditamb=pilkan pada actuator juga
+
+Logger
+=============================================================
+Ini bisa melihat informasi logger apa aja yang ada pada project kita
+
+Heap Dump
+=============================================================
+Kadang semua data di aplikasi akan di simpan di memory
+Kadang ada masalah memory leak di aplikasi, untuk itu kadang perlu memonitoring memory pada applikasi kita
+Actuator memiliki fitur untuk melakukan dump (export isi memory) menggunakan endpoint url
+/actuator/heapdump
+
+untuk melihat heapdump bisa menggunakan Visual VM atay Eclipse Memory Analyzer
+
+Thread Dump
+=============================================================
+Ini adalah cara untuk mendapatkan informasi secara realtime thread mana saja yang sedang berjalan
+Ini tidak akan menjadi download file namun response json
+
+Scheduled tas
+=============================================================
+Dengan menggunakan actuator ini kita bisa melihat infromasi schedule yang dibuat
+Bisa melihat kapan task tersebut akan dijalankan
+
+Metric
+=============================================================
+Metric merupakan informasi atau takaran proses dalam aplikasi
+Hal ini sebagai contoh untuk mendapatkan berapa jumlah request per second, lalu berapa avg response timenya
+
+Micrometer
+=============================================================
+Ini bisa diintegrasikan dengan banyak monitoring tools lainnya
+
+Jika ingin membuat metric custom yang tidak ada dalama actuator bisa menggunakan micrometer
+Bisa dibuka dokumentasi micrometernya ges nanti
+
+Peringatan
+=============================================================
+Fitur ini sangat sensistif karena berisi informasi rahasia
+Jika nantinya ingin diimplementasikan bisa menambahkan firewall atau proxy server seperti menggunakan Nginx untuk menjaga endpoint actuator tidak public
+
+Berarti harus belajar Nginx juga nanti ges
+
+
